@@ -4,12 +4,28 @@ using UnityEngine;
 
 public class CoursesManager : MonoBehaviour
 {
+    public static CoursesManager Instance { get; private set; }
     public GameObject startingPositions;
     public List<GameObject> players;
     public float maxStartTime = 4.0f;
     public float startTimeElapsed = 0.0f;
     public float timeElapsed = 0.0f;
     public bool gameStarted = false;
+
+    private void Awake()
+    {
+        // Ensure only one instance of CoursesManager exists
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist between scenes
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
