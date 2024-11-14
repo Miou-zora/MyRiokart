@@ -625,7 +625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1337031166540008031}
   m_Layer: 0
-  m_Name: 'Wheels (Missing Prefab with guid: 305a556307b36464395aa157cffcd3db)'
+  m_Name: Wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1194,7 +1194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3408119793031165346}
   m_Layer: 0
-  m_Name: Placeholder for referenced Transform in Prefab instance (6)
+  m_Name: FrontLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1551,7 +1551,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5304054388755328228}
   m_Layer: 0
-  m_Name: Placeholder for referenced Transform in Prefab instance (8)
+  m_Name: FrontRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1583,7 +1583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3057338645158391130}
   m_Layer: 0
-  m_Name: Placeholder for referenced Transform in Prefab instance (5)
+  m_Name: BackRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2519,7 +2519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5234696183581219285}
   m_Layer: 0
-  m_Name: Placeholder for referenced Transform in Prefab instance (7)
+  m_Name: BackLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
