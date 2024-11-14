@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - c00_defaultRoad
+  - StartPath
+  - CPU
   layers:
   - Default
   - TransparentFX
