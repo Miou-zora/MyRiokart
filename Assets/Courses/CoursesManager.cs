@@ -41,7 +41,8 @@ public class CoursesManager : MonoBehaviour
         }
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].transform.position = startingPositions.transform.GetChild(i).position;
+            players[i].GetComponent<Rigidbody>().position = startingPositions.transform.GetChild(i).position;
+            players[i].GetComponent<Rigidbody>().rotation = startingPositions.transform.GetChild(i).rotation;
         }
     }
     
