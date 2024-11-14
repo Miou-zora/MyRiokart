@@ -806,7 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4454306988243398519}
   - component: {fileID: 4454306988243398518}
-  m_Layer: 13
+  m_Layer: 2
   m_Name: KartBouncingCapsule
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -847,10 +847,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.45
-  m_Height: 2
+  m_Radius: 0.3573494
+  m_Height: 2.3791895
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.074110985, z: 0.18959475}
 --- !u!1 &4454306988816817083
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,8 +987,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.6348, y: 0, z: -4.2380886}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4454306988243398519}
   - {fileID: 4454306988816817082}
@@ -1016,7 +1016,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
