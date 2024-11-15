@@ -187,6 +187,34 @@ namespace KartGame.KartSystems
             UpdateSuspensionParams(RearLeftWheel);
             UpdateSuspensionParams(RearRightWheel);
         }
+        
+        
+        void TickPowerups()
+        {
+            // remove all elapsed powerups
+            m_ActivePowerupList.RemoveAll((p) => { return p.ElapsedTime > p.MaxTime; });
+
+            // zero out powerups before we add them all up
+            var powerups = new Stats();
+
+            // add up all our powerups
+            for (int i = 0; i < m_ActivePowerupList.Count; i++)
+            {
+                var p = m_ActivePowerupList[i];
+
+                // add elapsed time
+                p.ElapsedTime += Time.fixedDeltaTime;
+
+                // add up the powerups
+                powerups += p.modifiers;
+            }
+
+            // add powerups to our final stats
+            m_FinalStats = baseStats + powerups;
+
+            // clamp values in finalstats
+            m_FinalStats.Grip = Mathf.Clamp(m_FinalStats.Grip, 0, 1);
+        }
 
         void FixedUpdate()
         {
@@ -197,7 +225,7 @@ namespace KartGame.KartSystems
 
             GatherInputs();
 
-            m_FinalStats = baseStats;
+            TickPowerups();
 
             // apply our physics properties
             Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
