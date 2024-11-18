@@ -1307,7 +1307,7 @@ MonoBehaviour:
   normalScale: 1
   selectedScale: 1.2
   sceneNames:
-  - champi
+  - Course00
   - flower
   - star
   - crown
