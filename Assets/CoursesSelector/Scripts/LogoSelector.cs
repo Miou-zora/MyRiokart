@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class LogoSelector : MonoBehaviour
 {
-    public List<RectTransform> logos; // Ajoute ici tes logos dans l'ordre
-    public float normalScale = 1.0f; // Taille normale des logos
-    public float selectedScale = 1.2f; // Taille des logos sélectionnés
-    private int selectedIndex = 0; // Index du logo actuellement sélectionné
-    public string[] sceneNames;
+    public List<RectTransform> logos;
+    public float normalScale = 1.0f;
+    public float selectedScale = 1.2f;
+    private int selectedIndex = 0;
+    public Scene[] coursesScenes;
 
     void Start()
     {
@@ -18,7 +18,6 @@ public class LogoSelector : MonoBehaviour
 
     void Update()
     {
-        // Gérer les flèches directionnelles pour naviguer entre les logos
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             selectedIndex = (selectedIndex + 1) % logos.Count;
@@ -48,19 +47,18 @@ public class LogoSelector : MonoBehaviour
 
     void LoadSelectedScene()
     {
-        if (selectedIndex < sceneNames.Length)
+        if (selectedIndex < coursesScenes.Length)
         {
-            SceneManager.LoadScene(sceneNames[selectedIndex]);
+            SceneManager.LoadScene(coursesScenes[selectedIndex].name);
         }
         else
         {
-            Debug.LogWarning("Aucune scène assignée pour ce logo !");
+            Debug.LogWarning("No scene provided for selected icon");
         }
     }
 
     void UpdateLogoSizes()
     {
-        // Parcourir les logos et ajuster leur taille
         for (int i = 0; i < logos.Count; i++)
         {
             if (i == selectedIndex)
