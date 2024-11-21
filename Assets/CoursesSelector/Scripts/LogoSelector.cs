@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class LogoSelector : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class LogoSelector : MonoBehaviour
     public float normalScale = 1.0f;
     public float selectedScale = 1.2f;
     private int selectedIndex = 0;
-    public Scene[] coursesScenes;
+    public SceneAsset[] coursesScenes;
 
     void Start()
     {
