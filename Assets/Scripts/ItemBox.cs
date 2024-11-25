@@ -5,16 +5,16 @@ using UnityEngine.UI;
 public class ItemBox : MonoBehaviour
 {
     Animator anim;
-    public bool isActive = false; // Whether the animation is active
     public float totalTime = 10f; // Total time to control the animation speed
-    private float timer = 0f; // Internal timer to track elapsed time
-    public float targetAnimationTime = 0.5f;
     public float gamblingTime = 10.0f;
 
+    private float timer = 0f; // Internal timer to track elapsed time
+    private bool isGambling = false; // Whether the animation is active
     private List<Sprite> itemsList;
     private int currentIndex = 0;
 
     private Image nextItem;
+    private Image currentItem;
 
     // Animator speed milestones
     private Dictionary<float, float> speedChanges = new Dictionary<float, float>
@@ -28,29 +28,30 @@ public class ItemBox : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        isGambling = anim.GetBool("IsGambling");
         itemsList = new List<Sprite>();
         Sprite[] sprites = Resources.LoadAll<Sprite>("Items");
         itemsList.AddRange(sprites);
-        Debug.Log($"Loaded {itemsList.Count} sprites.");
+        Debug.Log($"Loaded {itemsList.Count} sprites for the ItemBox.");
 
         nextItem = transform.Find("ItemBoxBottom/ItemBox_Object_Next").GetComponent<Image>();
+        currentItem = transform.Find("ItemBoxTop/ItemBox_Object_Current").GetComponent<Image>();
 
         if (itemsList.Count > 0)
         {
             nextItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
+            currentItem.sprite = itemsList[currentIndex % itemsList.Count];
         }
-        anim.speed = 4f; // Default speed
+        anim.speed = 1f; // Default speed
     }
 
     void Update()
     {
-        if (!isActive || itemsList.Count == 0) return;
-        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.normalizedTime % 1 >= targetAnimationTime && stateInfo.normalizedTime % 1 < targetAnimationTime + Time.deltaTime)
-        {
-            UpdateSprites();
-        }
-        if (isActive && timer < totalTime)
+        isGambling = anim.GetBool("IsGambling");
+        if (!isGambling || itemsList.Count == 0) return;
+        UpdateSprites();
+        Debug.Log("timer " + timer + " " + totalTime);
+        if (isGambling && timer < totalTime)
         {
             timer += Time.deltaTime;
             HandleSpeedChanges();
@@ -59,16 +60,27 @@ public class ItemBox : MonoBehaviour
 
     private void UpdateSprites()
     {
-        // Update the sprite index
-        currentIndex++;
-        if (currentIndex >= itemsList.Count)
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.normalizedTime % 1 >= 0.0f && stateInfo.normalizedTime % 1 < 0.0f + Time.deltaTime)
         {
-            currentIndex = 0;
+            currentIndex++;
+            if (currentIndex >= itemsList.Count)
+            {
+                currentIndex = 0;
+            }
+
+            currentItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
+
+        } else if (stateInfo.normalizedTime % 1 >= 0.5f && stateInfo.normalizedTime % 1 < 0.5f + Time.deltaTime)
+        {
+            currentIndex++;
+            if (currentIndex >= itemsList.Count)
+            {
+                currentIndex = 0;
+            }
+
+            nextItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
         }
-
-        nextItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
-
-        // Debug.Log($"Sprites updated to index {currentIndex}.");
     }
 
     private void HandleSpeedChanges()
@@ -86,8 +98,8 @@ public class ItemBox : MonoBehaviour
             {
                 // Set ItemActive to true when timer hits 0 milestone
                 anim.SetBool("ItemActive", true);
-                Debug.Log("ItemActive set to true.");
-                isActive = false; // Disable further updates
+                isGambling = false; // Disable further updates
+                timer = 0f;
                 break;
             }
         }
