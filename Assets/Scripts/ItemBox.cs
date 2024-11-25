@@ -50,7 +50,6 @@ public class ItemBox : MonoBehaviour
         isGambling = anim.GetBool("IsGambling");
         if (!isGambling || itemsList.Count == 0) return;
         UpdateSprites();
-        Debug.Log("timer " + timer + " " + totalTime);
         if (isGambling && timer < totalTime)
         {
             timer += Time.deltaTime;
