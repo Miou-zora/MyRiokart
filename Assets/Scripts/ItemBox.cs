@@ -11,7 +11,9 @@ public class ItemBox : MonoBehaviour
     private float timer = 0f; // Internal timer to track elapsed time
     private bool isGambling = false; // Whether the animation is active
     private List<Sprite> itemsList;
-    private int currentIndex = 0;
+    private int itemIndex = 0;
+
+    public int currentItemID = 0;
 
     private Image nextItem;
     private Image currentItem;
@@ -39,8 +41,8 @@ public class ItemBox : MonoBehaviour
 
         if (itemsList.Count > 0)
         {
-            nextItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
-            currentItem.sprite = itemsList[currentIndex % itemsList.Count];
+            nextItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
+            currentItem.sprite = itemsList[itemIndex % itemsList.Count];
         }
         anim.speed = 1f; // Default speed
     }
@@ -48,7 +50,8 @@ public class ItemBox : MonoBehaviour
     void Update()
     {
         isGambling = anim.GetBool("IsGambling");
-        if (!isGambling || itemsList.Count == 0) return;
+        if (!isGambling || itemsList.Count == 0)
+            return;
         UpdateSprites();
         if (isGambling && timer < totalTime)
         {
@@ -60,25 +63,27 @@ public class ItemBox : MonoBehaviour
     private void UpdateSprites()
     {
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.normalizedTime % 1 >= 0.0f && stateInfo.normalizedTime % 1 < 0.0f + Time.deltaTime)
+        if (stateInfo.normalizedTime % 1 >= 0.0f && stateInfo.normalizedTime % 1 < 0.5f && stateInfo.normalizedTime % 1 < 0.0f + Time.deltaTime)
         {
-            currentIndex++;
-            if (currentIndex >= itemsList.Count)
+            itemIndex++;
+            if (itemIndex >= itemsList.Count)
             {
-                currentIndex = 0;
+                itemIndex = 0;
             }
 
-            currentItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
+            currentItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
+            currentItemID = itemIndex;
 
         } else if (stateInfo.normalizedTime % 1 >= 0.5f && stateInfo.normalizedTime % 1 < 0.5f + Time.deltaTime)
         {
-            currentIndex++;
-            if (currentIndex >= itemsList.Count)
+            itemIndex++;
+            if (itemIndex >= itemsList.Count)
             {
-                currentIndex = 0;
+                itemIndex = 0;
             }
 
-            nextItem.sprite = itemsList[(currentIndex + 1) % itemsList.Count];
+            nextItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
+            currentItemID = itemIndex;
         }
     }
 
