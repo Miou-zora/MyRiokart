@@ -6,34 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class LogoSelector : MonoBehaviour
 {
-    public GameObject characterSelectionCanvas; // Canvas de sélection des personnages
+    public GameObject characterSelectionCanvas;
     public GameObject vehicleSelectionCanvas;
-    public GameObject courseSelectionCanvas; // Canvas de sélection des courses
+    public GameObject courseSelectionCanvas;
 
     public enum MenuType { Character, Vehicle, Circuit }
     public MenuType currentMenu = MenuType.Character;
 
-    public List<RectTransform> characters; // Liste des personnages (prefabs)
-    public string[] characterNames; // Noms des personnages
-    public TextMeshProUGUI characterNameText; // TextMeshPro pour afficher le nom du personnage
-    private int selectedCharacterIndex = 0; // Index du personnage sélectionné
-    public int columns = 2; // Nombre de colonnes pour les personnages
+    public List<RectTransform> characters;
+    public string[] characterNames;
+    public TextMeshProUGUI characterNameText;
+    private int selectedCharacterIndex = 0;
+    public int columns = 2;
     public Image characterImageInVehicleMenu;
     public List<Image> characterImages;
 
-    public List<GameObject> vehicles; // Liste des véhicules (prefabs)
-    public string[] vehicleNames; // Noms des véhicules
-    public TextMeshProUGUI vehicleNameText; // TextMeshPro pour afficher le nom du véhicule
-    private int selectedVehicleIndex = 0; // Index du véhicule sélectionné
+    public List<GameObject> vehicles;
+    public string[] vehicleNames;
+    public TextMeshProUGUI vehicleNameText;
+    private int selectedVehicleIndex = 0;
     public int vehicleColumns = 2;
     public List<Image> vehicleImages;
     public Image characterImageInCourseMenu;
     public Image vehicleImageInCourseMenu;
 
-    public List<RectTransform> logos; // Ajoute ici tes logos dans l'ordre
-    public float normalScale = 1.0f; // Taille normale des logos
-    public float selectedScale = 1.2f; // Taille des logos sélectionnés
-    private int selectedIndex = 0; // Index du logo actuellement sélectionné
+    public List<RectTransform> logos;
+    public float normalScale = 1.0f;
+    public float selectedScale = 1.2f;
+    private int selectedIndex = 0;
     public string[] sceneNames;
  
 
@@ -65,7 +65,6 @@ public class LogoSelector : MonoBehaviour
             HandleVehicleSelection();
         }
 
-        // Passer du menu des circuits au menu des personnages, puis du menu des personnages au menu des véhicules
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             SwitchMenu();
@@ -74,7 +73,6 @@ public class LogoSelector : MonoBehaviour
 
     void HandleCircuitSelection()
     {
-        // Gérer les flèches directionnelles pour naviguer entre les logos
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             selectedIndex = (selectedIndex + 1) % logos.Count;
@@ -104,7 +102,6 @@ public class LogoSelector : MonoBehaviour
 
     void HandleCharacterSelection()
     {
-        // Navigation dans le menu des personnages
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             selectedCharacterIndex = (selectedCharacterIndex + 1) % characters.Count;
@@ -126,10 +123,8 @@ public class LogoSelector : MonoBehaviour
             UpdateCharacterSelection();
         }
 
-        // Confirmer le choix du personnage
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Debug.Log("Personnage sélectionné : " + characterNames[selectedCharacterIndex]);
             if (characterImages != null && selectedCharacterIndex < characterImages.Count)
             {
                 characterImageInVehicleMenu.sprite = characterImages[selectedCharacterIndex].sprite;
@@ -141,7 +136,6 @@ public class LogoSelector : MonoBehaviour
 
     void HandleVehicleSelection()
     {
-        // Navigation dans le menu des véhicules
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             selectedVehicleIndex = (selectedVehicleIndex + 1) % vehicles.Count;
@@ -163,15 +157,13 @@ public class LogoSelector : MonoBehaviour
             UpdateVehicleSelection();
         }
 
-        // Confirmer le choix du véhicule et passer au menu des circuits
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Debug.Log("Véhicule sélectionné : " + vehicleNames[selectedVehicleIndex]);
             if (vehicleImages != null && selectedVehicleIndex < vehicleImages.Count)
             {
                 vehicleImageInCourseMenu.sprite = vehicleImages[selectedVehicleIndex].sprite;
             }
-            SwitchMenu();  // Bascule vers le menu de sélection des circuits
+            SwitchMenu();
         }
     }
 
@@ -183,13 +175,12 @@ public class LogoSelector : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Aucune scène assignée pour ce logo !");
+            Debug.LogWarning("Aucune scÃ¨ne assignÃ©e pour ce logo !");
         }
     }
 
     void UpdateCharacterSelection()
     {
-        // Mettre à jour la taille des personnages sélectionnés
         for (int i = 0; i < characters.Count; i++)
         {
             if (i == selectedCharacterIndex)
@@ -202,7 +193,6 @@ public class LogoSelector : MonoBehaviour
             }
         }
 
-        // Mettre à jour le nom du personnage sélectionné
         if (characterImages != null && selectedCharacterIndex < characterImages.Count)
         {
             characterImageInVehicleMenu.sprite = characterImages[selectedCharacterIndex].sprite;
@@ -213,7 +203,6 @@ public class LogoSelector : MonoBehaviour
 
     void UpdateVehicleSelection()
     {
-        // Mettre à jour la taille des véhicules sélectionnés
         for (int i = 0; i < vehicles.Count; i++)
         {
             if (i == selectedVehicleIndex)
@@ -226,7 +215,6 @@ public class LogoSelector : MonoBehaviour
             }
         }
 
-        // Mettre à jour le nom du véhicule sélectionné
         if (vehicleNameText != null && selectedVehicleIndex < vehicleNames.Length)
         {
             vehicleNameText.text = vehicleNames[selectedVehicleIndex];
@@ -235,7 +223,6 @@ public class LogoSelector : MonoBehaviour
 
     void UpdateLogoSizes()
     {
-        // Parcourir les logos et ajuster leur taille
         for (int i = 0; i < logos.Count; i++)
         {
             if (i == selectedIndex)
@@ -247,7 +234,6 @@ public class LogoSelector : MonoBehaviour
 
     void SwitchMenu()
     {
-        // Bascule entre le menu des circuits et celui des personnages
         if (currentMenu == MenuType.Circuit)
         {
             currentMenu = MenuType.Character;
