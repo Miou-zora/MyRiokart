@@ -24,10 +24,11 @@ public class LapPath : MonoBehaviour
     public void OnTriggerEnterChildPath(Collider triggerCollider, ChildPath childPath)
     {
         if (triggerCollider.CompareTag("Player") || triggerCollider.CompareTag("CPU")) {
-            Player player = triggerCollider.gameObject.GetComponent<Player>();
+            Player player = triggerCollider.GetComponentInParent<Player>();
             int childIndex = childPath.transform.GetSiblingIndex();
 
             if (player != null && player.currentCheckpoint != childIndex && childIndex - player.currentCheckpoint == 1) {
+                Debug.Log("Current Checkpoint: " + player.currentCheckpoint);
                 player.currentCheckpoint = childIndex;
             }
         }
@@ -37,10 +38,10 @@ public class LapPath : MonoBehaviour
     public void OnTriggerEnter(Collider triggerCollider)
     {
         if (triggerCollider.CompareTag("Player") || triggerCollider.CompareTag("CPU")) {
-            Player player = triggerCollider.gameObject.GetComponent<Player>();
+            Player player = triggerCollider.GetComponentInParent<Player>();
 
-            Debug.Log(subPath.Count());
             if (player != null && player.currentCheckpoint == subPath.Count() - 1) {
+                Debug.Log("Current Lap: " + player.currentLap);
                 player.currentLap += 1;
                 player.currentCheckpoint = 0;
             }
