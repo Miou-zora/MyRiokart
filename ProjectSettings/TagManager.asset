@@ -7,6 +7,8 @@ TagManager:
   - c00_defaultRoad
   - StartPath
   - CPU
+  - ItemBox
+  - Stunner
   layers:
   - Default
   - TransparentFX
