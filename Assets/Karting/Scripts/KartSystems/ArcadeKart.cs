@@ -219,6 +219,9 @@ namespace KartGame.KartSystems
 
         void FixedUpdate()
         {
+            if (!IsOwner || !m_CanMove)
+                return;
+
             UpdateSuspensionParams(FrontLeftWheel);
             UpdateSuspensionParams(FrontRightWheel);
             UpdateSuspensionParams(RearLeftWheel);

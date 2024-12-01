@@ -53,8 +53,6 @@ public class NetworkCamera : MonoBehaviour
         {
             NetworkBehaviour networkBehaviour = player.GetComponent<NetworkBehaviour>();
 
-            Debug.Log(networkBehaviour);
-
             if (networkBehaviour != null && networkBehaviour.IsOwner)
             {
                 // Set the virtual camera to follow and look at the local player
