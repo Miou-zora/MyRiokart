@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
 
 namespace KartGame.KartSystems
 {
-    public class ArcadeKart : MonoBehaviour
+    public class ArcadeKart : NetworkBehaviour
     {
         [System.Serializable]
         public class StatPowerup
