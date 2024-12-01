@@ -6,8 +6,10 @@ using System.Linq;
 public class NetworkCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera virtualCamera;
+    private int retryCount = 0; // Counter to track retry attempts
+    private const int maxRetries = 10; // Maximum number of retry attempts
+    private const float retryInterval = 0.2f; // Time interval between retries
 
-    // Start is called before the first frame update
     private void Start()
     {
         // Check if we have the virtual camera assigned in the inspector
@@ -16,14 +18,9 @@ public class NetworkCamera : MonoBehaviour
             Debug.LogError("CinemachineVirtualCamera not assigned in the inspector.");
             return;
         }
-        
+
         // Register to the event when a player is spawned
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private void OnDestroy()
@@ -36,19 +33,19 @@ public class NetworkCamera : MonoBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
-        Debug.Log("Got connection");
         if (clientId == NetworkManager.Singleton.LocalClientId)
         {
-            // We only want to set the camera to follow the local player
-            Invoke(nameof(SetCameraToFollowLocalPlayer), 0.1f);
+            // Start retrying to set the camera after a short delay
+            InvokeRepeating(nameof(TrySetCameraToFollowLocalPlayer), 0.1f, retryInterval);
         }
     }
 
-    private void SetCameraToFollowLocalPlayer()
+    private void TrySetCameraToFollowLocalPlayer()
     {
-        // Find all objects with the "Player" tag and look for the local player
+        // Attempt to find and set the camera to follow the local player
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        Debug.Log("Got " + players.Count() + " players");
         foreach (GameObject player in players)
         {
             NetworkBehaviour networkBehaviour = player.GetComponent<NetworkBehaviour>();
@@ -59,10 +56,19 @@ public class NetworkCamera : MonoBehaviour
                 virtualCamera.Follow = player.transform;
                 virtualCamera.LookAt = player.transform;
                 Debug.Log("Camera now following the local player.");
+
+                // Stop retrying once the camera has been set successfully
+                CancelInvoke(nameof(TrySetCameraToFollowLocalPlayer));
                 return;
             }
         }
-        
-        Debug.LogWarning("Local player not found. Ensure player prefab has the 'Player' tag.");
+
+        // Increment retry count and log a warning if retries are exhausted
+        retryCount++;
+        if (retryCount >= maxRetries)
+        {
+            Debug.LogWarning("Failed to find local player after multiple attempts. Ensure player prefab has the 'Player' tag.");
+            CancelInvoke(nameof(TrySetCameraToFollowLocalPlayer));
+        }
     }
 }
