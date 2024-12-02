@@ -198,7 +198,10 @@ public class LogoSelector : MonoBehaviour
             characterImageInVehicleMenu.sprite = characterImages[selectedCharacterIndex].sprite;
             characterImageInCourseMenu.sprite = characterImages[selectedCharacterIndex].sprite;
         }
-
+        if (characterNameText != null && selectedCharacterIndex < characterNames.Length)
+        {
+            characterNameText.text = characterNames[selectedCharacterIndex];
+        }
     }
 
     void UpdateVehicleSelection()
@@ -249,6 +252,7 @@ public class LogoSelector : MonoBehaviour
             vehicleSelectionCanvas.SetActive(true);
             courseSelectionCanvas.SetActive(false);
             UpdateVehicleSelection();
+            GameData.SelectedCharacterName = characterNames[selectedCharacterIndex];
         }
         else if (currentMenu == MenuType.Vehicle)
         {
@@ -257,6 +261,8 @@ public class LogoSelector : MonoBehaviour
             vehicleSelectionCanvas.SetActive(false);
             courseSelectionCanvas.SetActive(true);
             UpdateLogoSizes();
+
+            GameData.SelectedVehicleName = vehicleNames[selectedVehicleIndex];
         }
     }
 }
