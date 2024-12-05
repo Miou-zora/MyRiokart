@@ -10,11 +10,14 @@ TagManager:
   - PlayerCollider
   - CPUCollider
   - PreExistingLapCounter
+  - ItemBox
+  - Stunner
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

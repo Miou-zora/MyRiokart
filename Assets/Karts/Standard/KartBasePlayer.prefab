@@ -970,6 +970,9 @@ GameObject:
   - component: {fileID: 4454306989462648032}
   - component: {fileID: 4454306989462648036}
   - component: {fileID: 4454306989462648033}
+  - component: {fileID: 2614506365889167032}
+  - component: {fileID: 3341330991257637956}
+  - component: {fileID: 4215296402848768951}
   m_Layer: 2
   m_Name: KartBasePlayer
   m_TagString: Player
@@ -1046,7 +1049,7 @@ MonoBehaviour:
     CoastingDrag: 5
     Grip: 0.9
     Steer: 4
-    AddedGravity: 2
+    AddedGravity: 1
   m_VisualWheels:
   - {fileID: 5232291494289857064}
   - {fileID: 1447650833752708532}
@@ -1113,6 +1116,55 @@ MonoBehaviour:
   TurnInputName: Horizontal
   AccelerateButtonName: Accelerate
   BrakeButtonName: Brake
+  ItemButtonName: Item
+--- !u!114 &2614506365889167032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454306989462648037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8862613df8c54c3d977268b7ad84bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  SecondItem: {fileID: 0}
+  items:
+  - {fileID: 3139815081296481472, guid: a943a019af6db40589eeaf1e2a2f769b, type: 3}
+  kart: {fileID: 4454306989462648032}
+--- !u!114 &3341330991257637956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454306989462648037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77136df37e824551b3ee2df35eb940f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 1000
+  saltoSpeed: 260
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!114 &4215296402848768951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454306989462648037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e2d853be1b7904a95fb6624fc2d71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentCheckpoint: 0
+  currentLap: 0
 --- !u!1 &4454306989528921259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,9 +1261,9 @@ Transform:
   m_GameObject: {fileID: 4877898441732430662}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.33, y: 0, z: 0.535}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.503, y: 0.09000015, z: 0.535}
+  m_LocalScale: {x: 0.009, y: 0.009, z: 0.009}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8836449314606837498}
   m_Father: {fileID: 1337031166540008031}
@@ -1566,9 +1618,9 @@ Transform:
   m_GameObject: {fileID: 7738588448166047111}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.33, y: 0, z: 0.535}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.503, y: 0.09000015, z: 0.535}
+  m_LocalScale: {x: 0.009, y: 0.009, z: 0.009}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1142431161980525992}
   m_Father: {fileID: 1337031166540008031}
@@ -1598,9 +1650,9 @@ Transform:
   m_GameObject: {fileID: 7776722631980614662}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0, z: -0.419}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.535, y: 0.09, z: -0.419}
+  m_LocalScale: {x: 0.011, y: 0.011, z: 0.011}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6675588823472831564}
   m_Father: {fileID: 1337031166540008031}
@@ -2534,9 +2586,9 @@ Transform:
   m_GameObject: {fileID: 8942650447330386359}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 0, z: -0.419}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.535, y: 0.09000015, z: -0.419}
+  m_LocalScale: {x: 0.011, y: 0.011, z: 0.011}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1123596576145447041}
   m_Father: {fileID: 1337031166540008031}
