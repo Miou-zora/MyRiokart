@@ -7,11 +7,14 @@ TagManager:
   - c00_defaultRoad
   - StartPath
   - CPU
+  - ItemBox
+  - Stunner
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

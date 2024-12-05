@@ -196,7 +196,6 @@ namespace KartGame.KartSystems
 
             // zero out powerups before we add them all up
             var powerups = new Stats();
-
             // add up all our powerups
             for (int i = 0; i < m_ActivePowerupList.Count; i++)
             {
