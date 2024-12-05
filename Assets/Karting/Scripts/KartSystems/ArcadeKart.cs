@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using TMPro;
 
 namespace KartGame.KartSystems
 {

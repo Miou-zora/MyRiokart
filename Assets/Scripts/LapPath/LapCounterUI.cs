@@ -18,7 +18,6 @@ public class LapCounterUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Optional: Add logic to find the player if it's already instantiated
     }
 
     // Update is called once per frame

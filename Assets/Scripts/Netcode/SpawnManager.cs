@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        // Ensure only one instance of SpawnManager
         if (Instance == null)
         {
             Instance = this;
@@ -24,7 +24,6 @@ public class SpawnManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        // Populate spawnPoints with child transforms
         spawnPoints = new List<Transform>();
         foreach (Transform child in transform)
         {
@@ -34,13 +33,11 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-        // Subscribe to the client connected callback
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
 
     private void OnDestroy()
     {
-        // Unsubscribe when destroyed
         if (NetworkManager.Singleton != null)
         {
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
@@ -49,25 +46,31 @@ public class SpawnManager : MonoBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
-        // Only the server handles player spawning
         if (NetworkManager.Singleton.IsServer)
         {
+            // Server handles player spawning
             Transform spawnPoint = GetNextSpawnPoint();
-            GameObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation); // Use both position and rotation
+            GameObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         }
     }
 
     private Transform GetNextSpawnPoint()
     {
-        // Return the next available spawn point
         if (nextSpawnIndex >= spawnPoints.Count)
         {
             Debug.LogWarning("No more spawn points available! Repeating from the start.");
             nextSpawnIndex = 0;
         }
-        Transform spawnPoint = spawnPoints[nextSpawnIndex];
-        nextSpawnIndex++;
-        return spawnPoint;
+        return spawnPoints[nextSpawnIndex++];
+    }
+
+    private GameObject FindPlayerObject(ulong clientId)
+    {
+        foreach (var networkObject in NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.transform.root.GetComponentsInChildren<NetworkObject>())
+        {
+            if (networkObject.IsOwner) return networkObject.gameObject;
+        }
+        return null;
     }
 }
