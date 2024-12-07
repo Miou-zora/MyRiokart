@@ -20,6 +20,8 @@ public class LogoSelector : MonoBehaviour
     public int columns = 2;
     public Image characterImageInVehicleMenu;
     public List<Image> characterImages;
+    public List<Sprite> characterSprites;
+    public Image characterImage;
 
     public List<GameObject> vehicles;
     public string[] vehicleNames;
@@ -27,6 +29,8 @@ public class LogoSelector : MonoBehaviour
     private int selectedVehicleIndex = 0;
     public int vehicleColumns = 2;
     public List<Image> vehicleImages;
+    public List<Sprite> vehicleSprites;
+    public Image vehicleSelected;
     public Image characterImageInCourseMenu;
     public Image vehicleImageInCourseMenu;
 
@@ -128,7 +132,7 @@ public class LogoSelector : MonoBehaviour
             if (characterImages != null && selectedCharacterIndex < characterImages.Count)
             {
                 characterImageInVehicleMenu.sprite = characterImages[selectedCharacterIndex].sprite;
-                characterImageInCourseMenu.sprite = characterImages[selectedCharacterIndex].sprite;
+                characterImageInCourseMenu.sprite = characterSprites[selectedCharacterIndex];
             }
             SwitchMenu();
         }
@@ -202,6 +206,12 @@ public class LogoSelector : MonoBehaviour
         {
             characterNameText.text = characterNames[selectedCharacterIndex];
         }
+        if (characterSprites != null && selectedCharacterIndex < characterSprites.Count)
+        {
+            characterImage.sprite = characterSprites[selectedCharacterIndex];
+            characterImage.rectTransform.sizeDelta = new Vector2(200, 200);
+            characterImage.rectTransform.sizeDelta *= 2;
+        }
     }
 
     void UpdateVehicleSelection()
@@ -221,6 +231,12 @@ public class LogoSelector : MonoBehaviour
         if (vehicleNameText != null && selectedVehicleIndex < vehicleNames.Length)
         {
             vehicleNameText.text = vehicleNames[selectedVehicleIndex];
+        }
+        if (vehicleSprites != null && selectedVehicleIndex < vehicleSprites.Count)
+        {
+            vehicleSelected.sprite = vehicleSprites[selectedVehicleIndex];
+            vehicleSelected.rectTransform.sizeDelta = new Vector2(200, 110);
+            vehicleSelected.rectTransform.sizeDelta *= 2;
         }
     }
 
