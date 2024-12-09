@@ -1471,6 +1471,9 @@ GameObject:
   - component: {fileID: 4914335962362726155}
   - component: {fileID: 5891087527702541011}
   - component: {fileID: 4157229505206176533}
+  - component: {fileID: 6649963720921118132}
+  - component: {fileID: -1791350861493130284}
+  - component: {fileID: -514941088988682134}
   m_Layer: 2
   m_Name: KartBasePlayer
   m_TagString: Player
@@ -1537,7 +1540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2314627025
+  GlobalObjectIdHash: 1884452324
   InScenePlacedSourceGlobalObjectIdHash: 1884452324
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1635,6 +1638,7 @@ MonoBehaviour:
   TurnInputName: Horizontal
   AccelerateButtonName: Accelerate
   BrakeButtonName: Brake
+  ItemButtonName: Item
 --- !u!114 &5891087527702541011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1649,7 +1653,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCheckpoint: 0
   currentLap: 0
-  lapCounter: {fileID: 0}
 --- !u!114 &4157229505206176533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1668,6 +1671,58 @@ MonoBehaviour:
   networkRotation:
     m_InternalValue: {x: 0, y: 0, z: 0, w: 0}
   smoothSpeed: 5
+--- !u!114 &6649963720921118132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8862613df8c54c3d977268b7ad84bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  SecondItem: {fileID: 0}
+  items:
+  - {fileID: 7476549664795411953, guid: fa4b429b1958744bcaea4699b072d18e, type: 3}
+  - {fileID: 5121995469438134268, guid: e13db45274903400c83b16a7308090b5, type: 3}
+  - {fileID: 2264691378983868555, guid: b0bb96a8338bb4cf69cabcedcae0bb82, type: 3}
+  - {fileID: 2264691378983868555, guid: 11f6209985b6b4cfe89a6cd91e400560, type: 3}
+  - {fileID: 3139815081296481472, guid: a943a019af6db40589eeaf1e2a2f769b, type: 3}
+  - {fileID: 4367070618881992351, guid: 34cebecab09784c8ea387044cbee3b89, type: 3}
+  kart: {fileID: 2003765916811918251}
+--- !u!114 &-1791350861493130284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77136df37e824551b3ee2df35eb940f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 1100
+  saltoSpeed: 270
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!114 &-514941088988682134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8c8f2568eea47999338466a1db9d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rainbowMaterial: {fileID: 2100000, guid: f81162290d41742bbb6b8c3968361473, type: 2}
 --- !u!1 &5055685215898343585
 GameObject:
   m_ObjectHideFlags: 0
