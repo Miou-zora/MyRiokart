@@ -258,7 +258,7 @@ namespace KartGame.KartSystems
             m_PreviousGroundPercent = GroundPercent;
         }
 
-        void GatherInputs()
+        public void GatherInputs()
         {
             // reset input
             Input = new InputData();

@@ -58,7 +58,8 @@ public class ItemHandeling : MonoBehaviour
             ui.SetItemActive(false);
         if (item == null || ui.isGamblingActive())
             return;
-        if (kart.Input.Item && !wasPressed)
+        kart.GatherInputs();
+        if (kart.Input.Item && !wasPressed && !ui.isGamblingActive())
         {
             Debug.Log("Item used");
             if (SecondItem == null && item)
