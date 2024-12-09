@@ -15,6 +15,7 @@ public class LogoSelector : MonoBehaviour
     void Start()
     {
         UpdateLogoSizes();
+        AddClickListeners();
     }
 
     void Update()
@@ -58,6 +59,19 @@ public class LogoSelector : MonoBehaviour
         }
     }
 
+    void AddClickListeners()
+    {
+        for (int i = 0; i < logos.Count; i++)
+        {
+            int index = i; // Capture l'index pour la fermeture du contexte
+            Button button = logos[i].GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.AddListener(() => OnLogoClicked(index));
+            }
+        }
+    }
+
     void UpdateLogoSizes()
     {
         for (int i = 0; i < logos.Count; i++)
@@ -67,5 +81,12 @@ public class LogoSelector : MonoBehaviour
             else
                 logos[i].localScale = Vector3.one * normalScale;
         }
+    }
+
+    public void OnLogoClicked(int index)
+    {
+        selectedIndex = index;
+        UpdateLogoSizes();
+        LoadSelectedScene();
     }
 }
