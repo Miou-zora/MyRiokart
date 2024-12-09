@@ -31,7 +31,7 @@ public class CoursesManager : MonoBehaviour
     {
         Debug.Log("Personnage sélectionné : " + GameData.SelectedCharacterName);
         Debug.Log("Véhicule sélectionné : " + GameData.SelectedVehicleName);
-        SpawnPlayers();
+        //SpawnPlayers();
     }
 
     void SpawnPlayers()

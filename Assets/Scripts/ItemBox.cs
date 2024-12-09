@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using Unity.Barracuda;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemBox : MonoBehaviour
+public class ItemBoxUI : MonoBehaviour
 {
     Animator anim;
     public float totalTime = 10f; // Total time to control the animation speed
-    public float gamblingTime = 10.0f;
+    public float gamblingTime = 3.0f;
+
+    private float gamblingTimer = 0f; // Internal timer to track elapsed time
 
     private float timer = 0f; // Internal timer to track elapsed time
     private bool isGambling = false; // Whether the animation is active
@@ -16,6 +19,8 @@ public class ItemBox : MonoBehaviour
     public int currentItemID = 0;
 
     private Image nextItem;
+
+    private int lastId = 0;
     private Image currentItem;
 
     // Animator speed milestones
@@ -50,14 +55,41 @@ public class ItemBox : MonoBehaviour
     void Update()
     {
         isGambling = anim.GetBool("IsGambling");
-        if (!isGambling || itemsList.Count == 0)
-            return;
-        UpdateSprites();
-        if (isGambling && timer < totalTime)
-        {
+        if (isGambling && itemsList.Count != 0)
+            UpdateSprites();
+        if (isGambling && timer < totalTime && gamblingTimer < gamblingTime) {
             timer += Time.deltaTime;
+            gamblingTimer += Time.deltaTime;
             HandleSpeedChanges();
+            Debug.Log($"Timer: {gamblingTimer} seconds and time: {gamblingTime}.");
+        } else {
+            anim.SetBool("IsGambling", false);
         }
+    }
+
+    public void StartGambling(int id = 0)
+    {
+        lastId = id;
+        if (!isGambling)
+        {
+            anim.SetBool("IsGambling", true);
+            gamblingTimer = 0f;
+        }
+    }
+
+    public bool isGamblingActive()
+    {
+        return isGambling;
+    }
+
+    public bool isItemActive()
+    {
+        return anim.GetBool("ItemActive");
+    }
+
+    public void SetItemActive(bool value)
+    {
+        anim.SetBool("ItemActive", value);
     }
 
     private void UpdateSprites()
@@ -70,6 +102,10 @@ public class ItemBox : MonoBehaviour
             {
                 itemIndex = 0;
             }
+            if (gamblingTime - gamblingTimer < 0.6f)
+            {
+                itemIndex = lastId;
+            }
 
             currentItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
             currentItemID = itemIndex;
@@ -80,6 +116,10 @@ public class ItemBox : MonoBehaviour
             if (itemIndex >= itemsList.Count)
             {
                 itemIndex = 0;
+            }
+            if (gamblingTime - gamblingTimer < 0.6f)
+            {
+                itemIndex = lastId;
             }
 
             nextItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
