@@ -41,6 +41,7 @@ public class GoldenMushroom : Item
         powerup.MaxTime = 1;
         powerup.ElapsedTime = 0;
         kart.AddPowerup(powerup);
+        GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().Play();
         used = true;
     }
