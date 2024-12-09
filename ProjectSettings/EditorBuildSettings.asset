@@ -11,7 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Course00.unity
     guid: 49ed8bd2480f49e45b32b9aa50bf9e8b
-  - enabled: 1
-    path: Assets/Scenes/banana.unity
-    guid: 9e6f7f76269429e419e2375868915f37
   m_configObjects: {}
