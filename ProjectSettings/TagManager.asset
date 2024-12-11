@@ -13,6 +13,7 @@ TagManager:
   - ItemBox
   - Stunner
   - Ground
+  - Waypoint
   layers:
   - Default
   - TransparentFX
