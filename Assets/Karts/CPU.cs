@@ -23,6 +23,18 @@ public class CPU : NetworkBehaviour
     {
         kart = gameObject.GetComponent<ArcadeKart>();
         waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+
+        // if parent name didn't start with path, remove it
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            if (!waypoints[i].transform.parent.name.StartsWith("path"))
+            {
+                waypoints[i] = null;
+            }
+        }
+
+        waypoints = Array.FindAll(waypoints, x => x != null);
+
         // Sort waypoints by parent name
 
         System.Array.Sort(waypoints, (x, y) => x.transform.parent.name.CompareTo(y.transform.parent.name));
@@ -51,7 +63,7 @@ public class CPU : NetworkBehaviour
             // Calculer un point aléatoire dans les limites du BoxCollider
             float randomX = UnityEngine.Random.Range(-size.x / 2, size.x / 2);
             float randomY = 0;
-            float randomZ = UnityEngine.Random.Range(-size.z / 2, size.z / 2);
+            float randomZ = 0;
             // make it closer to last point
             if (lastX != 0 && lastZ != 0)
             {
@@ -90,7 +102,6 @@ public class CPU : NetworkBehaviour
         float desiredTurnInput = Mathf.Clamp(angle / 180f, -1f, 1f);
         desiredTurnInput *= 3;
 
-        Debug.Log(Mathf.Abs(input.TurnInput - desiredTurnInput));
         if (Mathf.Abs(input.TurnInput - desiredTurnInput) < 0.25)
         {
             input.TurnInput = Mathf.Lerp(input.TurnInput, desiredTurnInput, Time.deltaTime * 150);
@@ -120,7 +131,7 @@ public class CPU : NetworkBehaviour
     {
         if (other.gameObject.CompareTag("Waypoint"))
         {
-            if (other.gameObject != waypoints[currentWaypoint])
+            if (other.gameObject != waypoints[currentWaypoint].transform.parent.gameObject)
             {
                 return;
             }

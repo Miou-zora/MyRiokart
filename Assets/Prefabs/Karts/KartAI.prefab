@@ -1597,7 +1597,7 @@ MonoBehaviour:
   RearRightWheel: {fileID: 2814668703281194058}
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 51
+    m_Bits: 8
   isAI: 1
 --- !u!114 &733103396464344299
 MonoBehaviour:
