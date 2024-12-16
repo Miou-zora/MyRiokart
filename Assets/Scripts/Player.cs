@@ -6,9 +6,11 @@ public class Player : NetworkBehaviour
 {
     public int currentCheckpoint = 0;
     public int currentLap = 0;
+    public int currentItemId = 0;
 
     private GameObject player;
-    private LapCounterUI lapCounterUi;
+    private LapCounterUI lapCounterUiPrefab;
+    private ItemBoxUI itemBoxUiPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -18,21 +20,39 @@ public class Player : NetworkBehaviour
 
         player = gameObject;
 
-        // Each player gets their own LapCounterUI instance.
-        lapCounterUi = GameObject.FindGameObjectWithTag("PreExistingLapCounter").GetComponent<LapCounterUI>();
-        
-        LapCounterUI localUi = Instantiate(lapCounterUi, transform);
-        if (lapCounterUi)
+        // Find the Canvas in the scene
+        Canvas raceUi = GameObject.FindGameObjectWithTag("GameUI").GetComponent<Canvas>();
+        if (raceUi == null)
         {
-            lapCounterUi.SetPlayer(player);
+            Debug.LogError("Race_UI Canvas not found!");
+            return;
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!IsLocalPlayer) return;
+        // Load LapCounterUI prefab
+        lapCounterUiPrefab = Resources.Load<LapCounterUI>("UI/LapCount");
+        if (lapCounterUiPrefab != null)
+        {
+            // Instantiate LapCounterUI
+            LapCounterUI localLapCounter = Instantiate(lapCounterUiPrefab, raceUi.transform); // Parent directly to Canvas
+            localLapCounter.SetPlayer(player); // Set player reference
+        }
+        else
+        {
+            Debug.LogError("LapCounterUI prefab could not be loaded!");
+        }
 
-        // Handle updates for the local player's UI if needed.
+        itemBoxUiPrefab = Resources.Load<ItemBoxUI>("UI/ItemBoxUi Variant");
+        if (itemBoxUiPrefab != null)
+        {
+            // Instantiate the ItemBoxUI for the local player only
+            ItemBoxUI localItemBox = Instantiate(itemBoxUiPrefab, raceUi.transform);
+            localItemBox.SetPlayer(player);
+        }
+        else
+        {
+            Debug.LogError("ItemBoxUI prefab could not be loaded!");
+            return;
+        }
+
     }
 }
