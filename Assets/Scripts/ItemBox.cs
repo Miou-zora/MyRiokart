@@ -95,7 +95,9 @@ public class ItemBoxUI : MonoBehaviour
 
     public bool isGamblingActive()
     {
-        return isGambling;
+        if (anim)
+            return anim.GetBool("IsGambling");
+        return false;
     }
 
     public bool isItemActive()
