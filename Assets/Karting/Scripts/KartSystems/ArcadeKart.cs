@@ -230,7 +230,7 @@ namespace KartGame.KartSystems
                 Debug.Log("No ground found");
                 return;
             }
-            Debug.Log(hit.collider.gameObject.name);
+            // Debug.Log(hit.collider.gameObject.name);
             Ground ground = hit.collider.gameObject.GetComponent<Ground>();
             if (ground == null)
                 return;
@@ -402,7 +402,7 @@ namespace KartGame.KartSystems
 
             // forward movement
             bool wasOverMaxSpeed = currentSpeed >= maxSpeed;
-            Debug.Log("Current Speed: " + currentSpeed + " Max Speed: " + maxSpeed);
+            // Debug.Log("Current Speed: " + currentSpeed + " Max Speed: " + maxSpeed);
 
             // if over max speed, cannot accelerate faster.
             if (wasOverMaxSpeed && !wasBraking) 

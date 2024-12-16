@@ -434,8 +434,8 @@ GameObject:
   - component: {fileID: 8919955258885853980}
   - component: {fileID: 5366249311213747177}
   m_Layer: 5
-  m_Name: ItemBox
-  m_TagString: Untagged
+  m_Name: ItemBoxUi
+  m_TagString: ItemBoxUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -495,10 +495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89142be0948a3d04ca6987afbc1f2540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
   totalTime: 10
-  targetAnimationTime: 0.5
-  gamblingTime: 10
+  gamblingTime: 3
+  currentItemID: 0
 --- !u!212 &5366249311213747177
 SpriteRenderer:
   m_ObjectHideFlags: 0

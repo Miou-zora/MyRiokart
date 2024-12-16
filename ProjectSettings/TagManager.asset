@@ -13,6 +13,8 @@ TagManager:
   - ItemBox
   - Stunner
   - Ground
+  - ItemBoxUI
+  - GameUI
   - Waypoint
   layers:
   - Default
