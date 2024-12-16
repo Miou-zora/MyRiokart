@@ -1109,10 +1109,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.33026457
+  m_Radius: 0.3573494
   m_Height: 2.3791895
   m_Direction: 2
-  m_Center: {x: 0, y: 0.10119581, z: 0.18959475}
+  m_Center: {x: 0, y: 0.074110985, z: 0.18959475}
 --- !u!1 &4276955348662835628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1468,14 +1468,16 @@ GameObject:
   - component: {fileID: 8700878601987837870}
   - component: {fileID: 2003765916811918251}
   - component: {fileID: 733103396464344299}
-  - component: {fileID: 4914335962362726155}
   - component: {fileID: 5891087527702541011}
   - component: {fileID: 4157229505206176533}
   - component: {fileID: 6649963720921118132}
   - component: {fileID: -1791350861493130284}
   - component: {fileID: -514941088988682134}
+  - component: {fileID: -7731324119842727793}
+  - component: {fileID: 8782708737959944134}
+  - component: {fileID: 7413305338336032029}
   m_Layer: 2
-  m_Name: KartBasePlayer
+  m_Name: KartAI
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1540,7 +1542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2683339509
+  GlobalObjectIdHash: 1352956405
   InScenePlacedSourceGlobalObjectIdHash: 1884452324
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1596,7 +1598,7 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 8
-  isAI: 0
+  isAI: 1
 --- !u!114 &733103396464344299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,22 +1626,6 @@ MonoBehaviour:
   rearRightWheel:
     wheelTransform: {fileID: 4924657910531381859}
     wheelCollider: {fileID: 2814668703281194058}
---- !u!114 &4914335962362726155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4973513905792881801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f292ffb948323c49ac31e54ff737ea2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TurnInputName: Horizontal
-  AccelerateButtonName: Accelerate
-  BrakeButtonName: Brake
-  ItemButtonName: Item
 --- !u!114 &5891087527702541011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1661,7 +1647,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4973513905792881801}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c38f91cf8989ae42bc084664628b114, type: 3}
   m_Name: 
@@ -1724,6 +1710,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainbowMaterial: {fileID: 2100000, guid: f81162290d41742bbb6b8c3968361473, type: 2}
+--- !u!114 &-7731324119842727793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6ddcc2478534a409fd48b038a118d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8782708737959944134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &7413305338336032029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5055685215898343585
 GameObject:
   m_ObjectHideFlags: 0

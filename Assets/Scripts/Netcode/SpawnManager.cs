@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using TMPro;
+using KartGame.KartSystems;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -69,7 +70,8 @@ public class SpawnManager : MonoBehaviour
     {
         foreach (var networkObject in NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.transform.root.GetComponentsInChildren<NetworkObject>())
         {
-            if (networkObject.IsOwner) return networkObject.gameObject;
+            ArcadeKart kart = networkObject.gameObject.GetComponent<ArcadeKart>();
+            if (networkObject.IsOwner && !kart.isAI) return networkObject.gameObject;
         }
         return null;
     }

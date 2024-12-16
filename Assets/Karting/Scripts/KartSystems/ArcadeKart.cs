@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
 using TMPro;
+using Unity.Collections;
 
 namespace KartGame.KartSystems
 {
@@ -73,7 +74,7 @@ namespace KartGame.KartSystems
         }
 
         public Rigidbody Rigidbody { get; private set; }
-        public InputData Input     { get; private set; }
+        public InputData Input     { get; set; }
         public float AirPercent    { get; private set; }
         public float GroundPercent { get; private set; }
 
@@ -165,6 +166,8 @@ namespace KartGame.KartSystems
 
         bool wasBraking = false;
 
+        public bool isAI = false;
+
         public void AddPowerup(StatPowerup statPowerup) => m_ActivePowerupList.Add(statPowerup);
         public void SetCanMove(bool move) => m_CanMove = move;
         public float GetMaxSpeed() => Mathf.Max(m_FinalStats.TopSpeed, m_FinalStats.ReverseSpeed);
@@ -217,9 +220,47 @@ namespace KartGame.KartSystems
             m_FinalStats.Grip = Mathf.Clamp(m_FinalStats.Grip, 0, 1);
         }
 
+        void checkGroundType() {
+            RaycastHit hit;
+            Vector3 pos = transform.position;
+            pos += transform.up * 0.1f;
+            Debug.DrawRay(pos, -transform.up, Color.red, 1.0f);
+
+            if (!Physics.Raycast(pos, -transform.up, out hit, 1.0f, GroundLayers)) {
+                Debug.Log("No ground found");
+                return;
+            }
+            // Debug.Log(hit.collider.gameObject.name);
+            Ground ground = hit.collider.gameObject.GetComponent<Ground>();
+            if (ground == null)
+                return;
+            GroundObject groundObj = ground.groundType;
+            if (groundObj.isOffroad && m_ActivePowerupList.Count == 0) {
+                m_FinalStats.TopSpeed /= 2f;
+                m_FinalStats.Acceleration /= 2f;
+            }
+            if (groundObj.speed) {
+                Debug.Log("SPEED");
+                // if id 9 in power up list
+                if (m_ActivePowerupList.Find(x => x.PowerUpID == "Boost") == null) {
+                    Stats stts = new Stats();
+                    stts.TopSpeed = 8;
+                    stts.Acceleration = 16;
+                    StatPowerup powerup = new StatPowerup();
+                    powerup.PowerUpID = "Boost";
+                    powerup.modifiers = stts;
+                    powerup.MaxTime = 1;
+                    powerup.ElapsedTime = 0;
+                    AddPowerup(powerup);
+                }
+            }
+        }
+
         void FixedUpdate()
         {
-            if (!IsOwner || !m_CanMove)
+            if ((!IsOwner && !isAI) || !m_CanMove)
+                return;
+            if (isAI && !IsServer)
                 return;
 
             UpdateSuspensionParams(FrontLeftWheel);
@@ -230,6 +271,7 @@ namespace KartGame.KartSystems
             GatherInputs();
 
             TickPowerups();
+            checkGroundType();
 
             // apply our physics properties
             Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
@@ -260,6 +302,8 @@ namespace KartGame.KartSystems
 
         public void GatherInputs()
         {
+            if (isAI)
+                return;
             // reset input
             Input = new InputData();
             WantsToDrift = false;
@@ -358,6 +402,7 @@ namespace KartGame.KartSystems
 
             // forward movement
             bool wasOverMaxSpeed = currentSpeed >= maxSpeed;
+            // Debug.Log("Current Speed: " + currentSpeed + " Max Speed: " + maxSpeed);
 
             // if over max speed, cannot accelerate faster.
             if (wasOverMaxSpeed && !wasBraking) 

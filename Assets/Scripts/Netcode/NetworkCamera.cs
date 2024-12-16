@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
 using System.Linq;
+using KartGame.KartSystems;
 
 public class NetworkCamera : MonoBehaviour
 {
@@ -49,8 +50,9 @@ public class NetworkCamera : MonoBehaviour
         foreach (GameObject player in players)
         {
             NetworkBehaviour networkBehaviour = player.GetComponent<NetworkBehaviour>();
+            ArcadeKart kart = player.GetComponent<ArcadeKart>();
 
-            if (networkBehaviour != null && networkBehaviour.IsOwner)
+            if (networkBehaviour != null && networkBehaviour.IsOwner && !kart.isAI)
             {
                 // Set the virtual camera to follow and look at the local player
                 virtualCamera.Follow = player.transform;

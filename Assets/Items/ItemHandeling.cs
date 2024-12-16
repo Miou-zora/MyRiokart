@@ -75,9 +75,11 @@ public class ItemHandeling : NetworkBehaviour
 
     void Update()
     {
-        if (ui) {
-            if (item == null && ui.isItemActive())
+        if (ui && NetworkManager.Singleton.LocalClientId == GetComponent<NetworkObject>().OwnerClientId) {
+            if (item == null && ui.isItemActive()) {
+                Debug.Log("Set to false");
                 ui.SetItemActive(false);
+            }
             if (item == null || ui.isGamblingActive())
                 return;
             kart.GatherInputs();
@@ -110,11 +112,6 @@ public class ItemHandeling : NetworkBehaviour
                 } else if (boxUI != null) {
                     boxUI.enabled = false;
                 }
-            }
-
-            if (ui != null)
-            {
-                Debug.Log("ItemBoxUI found for this player.");
             }
         }
     }

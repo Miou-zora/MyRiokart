@@ -15,6 +15,7 @@ TagManager:
   - Ground
   - ItemBoxUI
   - GameUI
+  - Waypoint
   layers:
   - Default
   - TransparentFX

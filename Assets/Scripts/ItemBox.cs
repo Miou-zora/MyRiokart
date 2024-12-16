@@ -120,7 +120,7 @@ public class ItemBoxUI : MonoBehaviour
             {
                 itemIndex = 0;
             }
-            if (gamblingTime - gamblingTimer < 0.6f)
+            if (gamblingTime - gamblingTimer < 0.8f)
             {
                 itemIndex = lastId;
             }
@@ -135,7 +135,7 @@ public class ItemBoxUI : MonoBehaviour
             {
                 itemIndex = 0;
             }
-            if (gamblingTime - gamblingTimer < 0.6f)
+            if (gamblingTime - gamblingTimer < 0.8f)
             {
                 itemIndex = lastId;
             }
