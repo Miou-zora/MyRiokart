@@ -56,9 +56,6 @@ public class SpawnManager : MonoBehaviour
         {
             // Server handles vehicle spawning
             Transform spawnPoint = GetNextSpawnPoint();
-            // Debug.Log("spawnPoint.position, spawnPoint.rotation " + spawnPoint.position + " " + spawnPoint.rotation);
-            // GameObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
-            // player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
             GameObject selectedVehicle = GetVehiclePrefab(GameData.SelectedVehicleIndex);
             GameObject selectedCharacter = GetCharacterPrefab(GameData.SelectedCharacterIndex);
 
