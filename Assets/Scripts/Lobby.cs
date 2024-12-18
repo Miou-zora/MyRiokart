@@ -66,7 +66,6 @@ public class Lobby : NetworkBehaviour
             Debug.Log("randomindex = " + randomKartIndex);
             Transform spawnPoint = spawnManager.GetNextSpawnPoint();
             GameObject cpu = Instantiate(kartPrefabs[randomKartIndex], spawnPoint.position, spawnPoint.rotation);
-            cpu.GetComponent<ItemBoxUI>().SetPlayer(cpu);
             cpu.GetComponent<NetworkObject>().Spawn();
             cpu.GetComponent<AddChar>().charId.Value = Random.Range(0, 12);
         }
