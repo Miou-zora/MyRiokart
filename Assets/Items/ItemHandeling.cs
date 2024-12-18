@@ -20,6 +20,9 @@ public class ItemHandeling : NetworkBehaviour
 
     void Awake()
     {
+        kart = GetComponent<ArcadeKart>();
+        if (kart.isAI)
+            enabled = false;
         // Ensure the prefab dictionary is initialized once (for all instances)
         if (prefabDictionary == null)
         {
@@ -120,6 +123,9 @@ public class ItemHandeling : NetworkBehaviour
             // Configure the item script
             var itemScript = item.GetComponent<Item>();
             itemScript.kart = kart;
+
+            if (kart.isAI)
+                this.enabled = false;
 
             // Update the UI for the local player
             if (ui != null)
