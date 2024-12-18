@@ -39,10 +39,10 @@ public class CPU : NetworkBehaviour
 
         System.Array.Sort(waypoints, (x, y) => x.transform.parent.name.CompareTo(y.transform.parent.name));
 
-        for (int i = 0; i < waypoints.Length; i++)
-        {
-            Debug.Log(waypoints[i].transform.parent.name);
-        }
+        // for (int i = 0; i < waypoints.Length; i++)
+        // {
+        //     Debug.Log(waypoints[i].transform.parent.name);
+        // }
 
         AddRandomTarget();
     }

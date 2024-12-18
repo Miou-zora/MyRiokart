@@ -10,12 +10,14 @@ public class Lobby : NetworkBehaviour
     
     public NetworkVariable<bool> isReady = new NetworkVariable<bool>(false);
 
-    public GameObject CpuPrefab;
+    public GameObject[] kartPrefabs;
     private SpawnManager spawnManager;
 
     private bool islocalReady = true;
     
     private NetworkVariable<bool> networkReady = new NetworkVariable<bool>(false);
+
+    private Dictionary<ulong, int> playerKartIndices = new Dictionary<ulong, int>();
 
     public bool isServer() {return NetworkManager.Singleton.IsServer;}
 
@@ -60,10 +62,13 @@ public class Lobby : NetworkBehaviour
         int nbCpu = 12 - players.Length;
         for (int i = 0; i < nbCpu; i++)
         {
+            int randomKartIndex = Random.Range(0, kartPrefabs.Length);
+            Debug.Log("randomindex = " + randomKartIndex);
             Transform spawnPoint = spawnManager.GetNextSpawnPoint();
-            GameObject cpu = Instantiate(CpuPrefab, spawnPoint.position, spawnPoint.rotation);
+            GameObject cpu = Instantiate(kartPrefabs[randomKartIndex], spawnPoint.position, spawnPoint.rotation);
             cpu.GetComponent<ItemBoxUI>().SetPlayer(cpu);
             cpu.GetComponent<NetworkObject>().Spawn();
+            cpu.GetComponent<AddChar>().charId.Value = Random.Range(0, 12);
         }
     }
 
