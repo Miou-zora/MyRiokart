@@ -1273,6 +1273,7 @@ GameObject:
   - component: {fileID: 4492668188442379362}
   - component: {fileID: 8934313773328124874}
   - component: {fileID: 322898229029868419}
+  - component: {fileID: 1600642933920171380}
   m_Layer: 2
   m_Name: Nostalgia1
   m_TagString: Player
@@ -1340,7 +1341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 63304709
+  GlobalObjectIdHash: 1166952555
   InScenePlacedSourceGlobalObjectIdHash: 1166952555
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1395,7 +1396,7 @@ MonoBehaviour:
   RearRightWheel: {fileID: 7267369428592106463}
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 51
+    m_Bits: 8
   isAI: 0
 --- !u!114 &5557449486552688501
 MonoBehaviour:
@@ -1525,6 +1526,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainbowMaterial: {fileID: 2100000, guid: f81162290d41742bbb6b8c3968361473, type: 2}
+--- !u!114 &1600642933920171380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4915779421076632646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec5a6706a0484e14a2a7bcd2d59aea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charId:
+    m_InternalValue: -1
 --- !u!1 &4968986931025289486
 GameObject:
   m_ObjectHideFlags: 0

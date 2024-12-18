@@ -3,8 +3,9 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using KartGame.KartSystems;
+using Unity.VisualScripting;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : NetworkBehaviour
 {
     public static SpawnManager Instance; // Singleton for global access
     private List<Transform> spawnPoints; // List to hold spawn positions
@@ -12,6 +13,11 @@ public class SpawnManager : MonoBehaviour
 
     public List<GameObject> vehiclePrefabs;   // List of vehicle prefabs
     public List<GameObject> characterPrefabs;
+
+    int selectedVehicleIndex = -1;
+    int selectedCharacterIndex = -1;
+
+    private ulong _clientId = ulong.MaxValue;
 
     private void Awake()
     {
@@ -35,11 +41,24 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    // on server start
+    public override void OnNetworkSpawn()
     {
         Debug.Log("V�hicule s�lectionn� : " + GameData.SelectedVehicleIndex);
         Debug.Log("perso s�lectionn� : " + GameData.SelectedCharacterIndex);
+
+        selectedVehicleIndex = GameData.SelectedVehicleIndex;
+        selectedCharacterIndex = GameData.SelectedCharacterIndex;
+        if (!IsServer)
+            SelectVehicleServerRpc(selectedVehicleIndex, selectedCharacterIndex);
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SelectVehicleServerRpc(int index, int characterIndex)
+    {
+        selectedVehicleIndex = index;
+        selectedCharacterIndex = characterIndex;
     }
 
     private void OnDestroy()
@@ -54,24 +73,40 @@ public class SpawnManager : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            // Server handles vehicle spawning
-            Transform spawnPoint = GetNextSpawnPoint();
-            GameObject selectedVehicle = GetVehiclePrefab(GameData.SelectedVehicleIndex);
-            GameObject selectedCharacter = GetCharacterPrefab(GameData.SelectedCharacterIndex);
-
-            if (selectedVehicle == null || selectedCharacter == null)
-            {
-                Debug.LogError("Impossible de trouver le prefab du v�hicule s�lectionn�. Assurez-vous que l'indice est correct.");
-                return;
-            }
-
-            // Instantiate the selected vehicle directly
-            GameObject vehicle = Instantiate(selectedVehicle, spawnPoint.position, spawnPoint.rotation);
-
-            // Spawn the vehicle as a networked object
-            vehicle.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-            AttachCharacterToVehicle(vehicle, selectedCharacter);
+            _clientId = clientId;
         }
+    }
+
+    private void Update()
+    {
+        if (_clientId == ulong.MaxValue) {
+            return;
+        }
+        if (selectedVehicleIndex == -1 || selectedCharacterIndex == -1)
+        {
+            return;
+        }
+        
+        // Server handles vehicle spawning
+        Transform spawnPoint = GetNextSpawnPoint();
+        GameObject selectedVehicle = GetVehiclePrefab(selectedVehicleIndex);
+        GameObject selectedCharacter = GetCharacterPrefab(selectedCharacterIndex);
+
+        if (selectedVehicle == null || selectedCharacter == null)
+        {
+            Debug.LogError("Impossible de trouver le prefab du v�hicule s�lectionn�. Assurez-vous que l'indice est correct.");
+            return;
+        }
+
+        // Instantiate the selected vehicle directly
+        GameObject vehicle = Instantiate(selectedVehicle, spawnPoint.position, spawnPoint.rotation);
+
+        // Spawn the vehicle as a networked object
+        vehicle.GetComponent<NetworkObject>().SpawnAsPlayerObject(_clientId);
+        vehicle.GetComponent<AddChar>().charId.Value = selectedCharacterIndex;
+        _clientId = ulong.MaxValue;
+        selectedVehicleIndex = -1;
+        selectedCharacterIndex = -1;
     }
 
     public Transform GetNextSpawnPoint()
@@ -94,7 +129,7 @@ public class SpawnManager : MonoBehaviour
         return null;
     }
 
-    private GameObject GetCharacterPrefab(int index)
+    public GameObject GetCharacterPrefab(int index)
     {
         if (index >= 0 && index < characterPrefabs.Count)
         {
@@ -102,22 +137,5 @@ public class SpawnManager : MonoBehaviour
         }
         Debug.LogWarning($"Character index {index} is out of range.");
         return null;
-    }
-
-    private void AttachCharacterToVehicle(GameObject vehicle, GameObject characterPrefab)
-    {
-        // Find a mount point on the vehicle (ensure you have a "CharacterMountPoint" transform on the vehicle prefab)
-        Transform mountPoint = vehicle.transform.Find("CharacterMountPoint");
-
-        if (mountPoint != null)
-        {
-            // Instantiate the character at the mount point's position
-            GameObject character = Instantiate(characterPrefab, mountPoint.position, mountPoint.rotation);
-            character.transform.SetParent(mountPoint); // Parent the character to the vehicle
-        }
-        else
-        {
-            Debug.LogWarning("CharacterMountPoint not found on vehicle. Make sure your vehicle prefab has a transform named 'CharacterMountPoint'.");
-        }
     }
 }

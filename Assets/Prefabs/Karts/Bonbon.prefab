@@ -406,6 +406,37 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 5097.585, z: -2300.5488}
     m_Extent: {x: 5285.508, y: 3285.9824, z: 5257.281}
   m_DirtyAABB: 0
+--- !u!1 &2315839595886684408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5866654416005377530}
+  m_Layer: 2
+  m_Name: CharacterMountPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5866654416005377530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2315839595886684408}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 205.948, y: -16.907694, z: 164.66383}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2646522550185779542}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2942940274965113770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,6 +1347,7 @@ GameObject:
   - component: {fileID: 6487389817133806428}
   - component: {fileID: 3250747633965619602}
   - component: {fileID: 2026745866592556971}
+  - component: {fileID: -5756576386778063792}
   m_Layer: 2
   m_Name: Bonbon
   m_TagString: Player
@@ -1336,6 +1368,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 5866654416005377530}
   - {fileID: 4322451055652906574}
   - {fileID: 945750037085790010}
   - {fileID: 5588580263551125245}
@@ -1382,7 +1415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1923062005
+  GlobalObjectIdHash: 2794478807
   InScenePlacedSourceGlobalObjectIdHash: 1679175776
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1567,6 +1600,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainbowMaterial: {fileID: 2100000, guid: f81162290d41742bbb6b8c3968361473, type: 2}
+--- !u!114 &-5756576386778063792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7662461848578526930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec5a6706a0484e14a2a7bcd2d59aea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charId:
+    m_InternalValue: -1
 --- !u!1 &7973152079601909021
 GameObject:
   m_ObjectHideFlags: 0

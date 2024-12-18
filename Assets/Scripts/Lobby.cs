@@ -19,6 +19,8 @@ public class Lobby : NetworkBehaviour
 
     public bool isServer() {return NetworkManager.Singleton.IsServer;}
 
+    private int lastCount = 0;
+
     void Start()
     {
         spawnManager = GameObject.FindObjectOfType<SpawnManager>();
@@ -27,6 +29,7 @@ public class Lobby : NetworkBehaviour
     void GetPlayers()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
+        lastCount = players.Length;
         Debug.Log("GetPlayers: " + players.Length);
     }
 
@@ -41,7 +44,10 @@ public class Lobby : NetworkBehaviour
 
     void StopPlayers()
     {
-        isReady.Value = false;
+        if (isServer()) {
+            isReady.Value = false;
+        }
+        Debug.Log("StopPlayers");
         foreach (GameObject player in players)
         {
             player.GetComponent<ArcadeKart>().enabled = false;
@@ -63,7 +69,9 @@ public class Lobby : NetworkBehaviour
 
     public void StartPlayers()
     {
-        isReady.Value = true;
+        if (isServer()) {
+            isReady.Value = true;
+        }
         foreach (GameObject player in players)
         {
             player.GetComponent<ArcadeKart>().enabled = true;
