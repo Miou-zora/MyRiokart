@@ -62,6 +62,7 @@ public class Lobby : NetworkBehaviour
         {
             Transform spawnPoint = spawnManager.GetNextSpawnPoint();
             GameObject cpu = Instantiate(CpuPrefab, spawnPoint.position, spawnPoint.rotation);
+            cpu.GetComponent<ItemBoxUI>().SetPlayer(cpu);
             cpu.GetComponent<NetworkObject>().Spawn();
         }
     }

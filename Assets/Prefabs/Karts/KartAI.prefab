@@ -1640,6 +1640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCheckpoint: 0
   currentLap: 0
+  currentItemId: 0
 --- !u!114 &4157229505206176533
 MonoBehaviour:
   m_ObjectHideFlags: 0
