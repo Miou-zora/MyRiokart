@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using KartGame.KartSystems; // Replace 'YourNamespace' with the actual namespace where ArcadeKart is defined
+using KartGame.KartSystems;
+using Unity.Netcode; // Replace 'YourNamespace' with the actual namespace where ArcadeKart is defined
 
 namespace Items
 {
-    public class Item : MonoBehaviour
+    public class Item : NetworkBehaviour
     {
         public ArcadeKart kart;
         public bool isSecond = false;

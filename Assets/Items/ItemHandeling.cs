@@ -1,23 +1,45 @@
 using KartGame.KartSystems;
 using UnityEngine;
-using Items;
 using Unity.Netcode;
+using System.Collections.Generic;
+using Items;
 
 public class ItemHandeling : NetworkBehaviour
 {
-    public GameObject item;
-    public GameObject SecondItem;
-
-    public GameObject[] items;
+    public GameObject item; // Currently held item
+    public GameObject SecondItem; // Secondary item
+    public GameObject[] items; // Array of possible item prefabs
 
     private bool wasPressed = false;
-
     public ArcadeKart kart;
 
     private ItemBoxUI ui;
 
+    // Dictionary to manually map prefab names to their GameObject instances
+    private static Dictionary<string, GameObject> prefabDictionary;
+
+    void Awake()
+    {
+        // Ensure the prefab dictionary is initialized once (for all instances)
+        if (prefabDictionary == null)
+        {
+            prefabDictionary = new Dictionary<string, GameObject>();
+            foreach (var prefab in items)
+            {
+                prefabDictionary[prefab.name] = prefab;
+            }
+        }
+    }
+
     void Start()
     {
+        if (!IsOwner)
+        {
+            enabled = false; // Disable script for non-owners
+            return;
+        }
+
+        // Find and assign UI for the local player
         var allItemBoxes = GameObject.FindGameObjectsWithTag("ItemBoxUI");
         foreach (var box in allItemBoxes)
         {
@@ -35,53 +57,94 @@ public class ItemHandeling : NetworkBehaviour
         }
     }
 
-
-
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsOwner)
+            return;
+
         if (other.gameObject.CompareTag("ItemBox"))
         {
-            Destroy(other.gameObject);
+            Destroy(other.gameObject); // Destroy the item box locally (clients will sync this via server)
 
             if (item != null)
                 return;
 
-            item = items[Random.Range(0, items.Length)];
-            Debug.Log($"Selected item: {item}");
+            // Select a random item from the array
+            GameObject selectedItemPrefab = items[Random.Range(0, items.Length)];
+            Debug.Log($"Selected item: {selectedItemPrefab}");
 
-            item = Instantiate(item, transform.position, Quaternion.identity);
-            item.transform.parent = transform;
+            // Request the server to spawn and parent the item
+            SpawnAndParentItemServerRpc(selectedItemPrefab.name);
+        }
+    }
 
+    [ServerRpc]
+    private void SpawnAndParentItemServerRpc(string prefabName, ServerRpcParams rpcParams = default)
+    {
+        // Ensure the prefab exists in the dictionary
+        if (!prefabDictionary.ContainsKey(prefabName))
+        {
+            Debug.LogError($"Prefab '{prefabName}' not found in dictionary!");
+            return;
+        }
+
+        // Spawn the item on the server
+        GameObject spawnedItem = Instantiate(prefabDictionary[prefabName]);
+        spawnedItem.transform.position = transform.position;
+
+        // Assign ownership to the client who triggered the ServerRpc
+        var networkObject = spawnedItem.GetComponent<NetworkObject>();
+        if (networkObject != null)
+        {
+            networkObject.SpawnWithOwnership(rpcParams.Receive.SenderClientId);
+
+            // Parent the item to the player or kart
+            spawnedItem.transform.parent = transform;
+
+            // Update the item reference on the client
+            UpdateItemClientRpc(networkObject);
+        }
+        else
+        {
+            Debug.LogError("Spawned item does not have a NetworkObject component!");
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateItemClientRpc(NetworkObjectReference spawnedItemReference)
+    {
+        // Resolve the item on the client and update the reference
+        if (spawnedItemReference.TryGet(out NetworkObject spawnedItem))
+        {
+            item = spawnedItem.gameObject;
+
+            // Configure the item script
             var itemScript = item.GetComponent<Item>();
             itemScript.kart = kart;
 
-            // Update UI only for the local player
-            if (ui != null && NetworkManager.Singleton.LocalClientId == GetComponent<NetworkObject>().OwnerClientId)
+            // Update the UI for the local player
+            if (ui != null)
             {
                 ui.StartGambling(itemScript.id);
             }
         }
     }
 
-
-    private void checkDestroy()
-    {
-        // check if item still exists
-        if (item != null)
-        {
-            
-        }
-    }
-
     void Update()
     {
-        if (ui && NetworkManager.Singleton.LocalClientId == GetComponent<NetworkObject>().OwnerClientId) {
-            if (item == null && ui.isItemActive()) {
+        if (!IsOwner)
+            return;
+
+        if (ui && NetworkManager.Singleton.LocalClientId == GetComponent<NetworkObject>().OwnerClientId)
+        {
+            if (item == null && ui.isItemActive())
+            {
                 Debug.Log("Set to false");
                 ui.SetItemActive(false);
             }
             if (item == null || ui.isGamblingActive())
                 return;
+
             kart.GatherInputs();
             if (kart.Input.Item && !wasPressed && !ui.isGamblingActive())
             {
@@ -97,21 +160,6 @@ public class ItemHandeling : NetworkBehaviour
             {
                 if (SecondItem == null)
                     SecondItem = item;
-            }
-        } else {
-            var allItemBoxes = GameObject.FindGameObjectsWithTag("ItemBoxUI");
-            
-            foreach (var box in allItemBoxes)
-            {
-                var boxUI = box.GetComponent<ItemBoxUI>();
-                if (boxUI != null /* && boxUI.GetComponent<NetworkObject>().OwnerClientId == NetworkManager.Singleton.LocalClientId */)
-                {
-                    boxUI.enabled = true;
-                    ui = boxUI;
-                    break;
-                } else if (boxUI != null) {
-                    boxUI.enabled = false;
-                }
             }
         }
     }

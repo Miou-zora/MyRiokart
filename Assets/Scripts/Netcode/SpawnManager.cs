@@ -51,6 +51,7 @@ public class SpawnManager : MonoBehaviour
         {
             // Server handles player spawning
             Transform spawnPoint = GetNextSpawnPoint();
+            Debug.Log("spawnPoint.position, spawnPoint.rotation " + spawnPoint.position + " " + spawnPoint.rotation);
             GameObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         }
