@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 626071520422333117}
   - component: {fileID: 2575230048137317050}
   - component: {fileID: 2313780234043802241}
+  - component: {fileID: 453321835180243891}
   m_Layer: 2
   m_Name: StandardMoto1
   m_TagString: Player
@@ -528,6 +529,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainbowMaterial: {fileID: 2100000, guid: f81162290d41742bbb6b8c3968361473, type: 2}
+--- !u!114 &453321835180243891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489751585708276268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec5a6706a0484e14a2a7bcd2d59aea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charId:
+    m_InternalValue: -1
 --- !u!1 &1626573904097128961
 GameObject:
   m_ObjectHideFlags: 0

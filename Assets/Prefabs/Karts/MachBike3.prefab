@@ -1331,6 +1331,7 @@ GameObject:
   - component: {fileID: 2217266839898105697}
   - component: {fileID: 4643371750648528196}
   - component: {fileID: 6417539593257668653}
+  - component: {fileID: 7543094709216799892}
   m_Layer: 2
   m_Name: MachBike3
   m_TagString: Player
@@ -1584,6 +1585,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainbowMaterial: {fileID: 2100000, guid: f81162290d41742bbb6b8c3968361473, type: 2}
+--- !u!114 &7543094709216799892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4428590558025065919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec5a6706a0484e14a2a7bcd2d59aea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charId:
+    m_InternalValue: -1
 --- !u!1 &4600858641199212145
 GameObject:
   m_ObjectHideFlags: 0
