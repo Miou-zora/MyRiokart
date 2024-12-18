@@ -70,4 +70,4 @@ MonoBehaviour:
   isSecond: 1
   id: 1
   life: 1
-  shell: {fileID: 999418869817395874, guid: 6312c84dad64f41d69a284ad219061da, type: 3}
+  shellPrefab: {fileID: 999418869817395874, guid: 6312c84dad64f41d69a284ad219061da, type: 3}
