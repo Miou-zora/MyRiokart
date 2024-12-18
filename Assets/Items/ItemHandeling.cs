@@ -70,9 +70,8 @@ public class ItemHandeling : NetworkBehaviour
                 return;
 
             // Select a random item from the array
-            // GameObject selectedItemPrefab = items[Random.Range(0, items.Length)];
-            GameObject selectedItemPrefab = items[5];
-            Debug.Log($"Selected item: {selectedItemPrefab}");
+            GameObject selectedItemPrefab = items[Random.Range(0, items.Length)];
+            // Debug.Log($"Selected item: {selectedItemPrefab}");
 
             // Request the server to spawn and parent the item
             SpawnAndParentItemServerRpc(selectedItemPrefab.name);

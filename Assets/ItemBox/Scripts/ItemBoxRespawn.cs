@@ -26,7 +26,7 @@ public class ItemBoxRespawn : NetworkBehaviour
         Vector3 position = new Vector3(0, 0, 0);
         GameObject itemBox = Instantiate(itemBoxPrefab, position, transform.rotation);
         itemBox.GetComponent<NetworkObject>().Spawn();
-        Debug.Log("Item box spawned");
+        // Debug.Log("Item box spawned");
         itemBox.transform.parent = transform;
         itemBox.transform.localPosition = new Vector3(0, 0, 0);
         itemBox.transform.localScale = new Vector3(1, 1, 1);

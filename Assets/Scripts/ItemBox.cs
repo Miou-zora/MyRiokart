@@ -64,11 +64,13 @@ public class ItemBoxUI : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Player is " + player);
         if (player != null)
         {
             isGambling = anim.GetBool("IsGambling");
             if (isGambling && itemsList.Count != 0)
                 UpdateSprites();
+            Debug.Log("timer " + timer + " " + totalTime + " " + gamblingTimer + " " + gamblingTime);
             if (isGambling && timer < totalTime && gamblingTimer < gamblingTime)
             {
                 timer += Time.deltaTime;

@@ -240,7 +240,7 @@ namespace KartGame.KartSystems
                 m_FinalStats.Acceleration /= 2f;
             }
             if (groundObj.speed) {
-                Debug.Log("SPEED");
+                // Debug.Log("SPEED");
                 // if id 9 in power up list
                 if (m_ActivePowerupList.Find(x => x.PowerUpID == "Boost") == null) {
                     Stats stts = new Stats();
