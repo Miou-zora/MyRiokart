@@ -12,6 +12,8 @@ public class CoursesManager : MonoBehaviour
     public float timeElapsed = 0.0f;
     public bool gameStarted = false;
 
+    private Lobby lobby;
+
     private void Awake()
     {
         // Ensure only one instance of CoursesManager exists
@@ -29,8 +31,7 @@ public class CoursesManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Personnage sélectionné : " + GameData.SelectedCharacterName);
-        Debug.Log("Véhicule sélectionné : " + GameData.SelectedVehicleName);
+        Lobby lobby = GameObject.FindObjectOfType<Lobby>();
         //SpawnPlayers();
     }
 
@@ -50,6 +51,13 @@ public class CoursesManager : MonoBehaviour
     
     void Update()
     {
+        if (lobby == null)
+        {
+            lobby = GameObject.FindObjectOfType<Lobby>();
+            return;
+        }
+        if (!lobby.isReady.Value)
+            return;
         if (!gameStarted) {
             // print each seconds elapsed
             float interval = startTimeElapsed;
@@ -57,6 +65,9 @@ public class CoursesManager : MonoBehaviour
             if (startTimeElapsed >= maxStartTime) {
                 gameStarted = true;
                 Debug.Log("Game started!");
+                if (lobby.isServer()) {
+                    lobby.StartPlayers();
+                }
                 // Start the game (enable car movement)
             } else {
                 if (Mathf.Floor(startTimeElapsed) > Mathf.Floor(interval)) {

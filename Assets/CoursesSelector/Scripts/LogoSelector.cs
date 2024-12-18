@@ -268,7 +268,7 @@ public class LogoSelector : MonoBehaviour
             vehicleSelectionCanvas.SetActive(true);
             courseSelectionCanvas.SetActive(false);
             UpdateVehicleSelection();
-            GameData.SelectedCharacterName = characterNames[selectedCharacterIndex];
+            GameData.SelectedCharacterIndex = selectedCharacterIndex;
         }
         else if (currentMenu == MenuType.Vehicle)
         {
@@ -278,7 +278,7 @@ public class LogoSelector : MonoBehaviour
             courseSelectionCanvas.SetActive(true);
             UpdateLogoSizes();
 
-            GameData.SelectedVehicleName = vehicleNames[selectedVehicleIndex];
+            GameData.SelectedVehicleIndex = selectedVehicleIndex;
         }
     }
 }
