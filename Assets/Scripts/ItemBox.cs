@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Unity.Barracuda;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemBoxUI : MonoBehaviour
 {
-    Animator anim;
+    private Animator anim;
     public float totalTime = 10f; // Total time to control the animation speed
     public float gamblingTime = 3.0f;
 
@@ -16,12 +16,17 @@ public class ItemBoxUI : MonoBehaviour
     private List<Sprite> itemsList;
     private int itemIndex = 0;
 
-    public int currentItemID = 0;
+    // public int currentItemID = 0;
 
     private Image nextItem;
 
     private int lastId = 0;
     private Image currentItem;
+
+    private GameObject player; // The player attached to an item box instance
+
+    // public NetworkVariable<int> CurrentItemID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    // public NetworkVariable<bool> IsGambling = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // Animator speed milestones
     private Dictionary<float, float> speedChanges = new Dictionary<float, float>
@@ -32,10 +37,15 @@ public class ItemBoxUI : MonoBehaviour
         { 0f, 0f }  // At 0 seconds, set ItemActive to true
     };
 
+    public void SetPlayer(GameObject playerObject)
+    {
+        player = playerObject;
+    }
+
     void Start()
     {
         anim = GetComponent<Animator>();
-        isGambling = anim.GetBool("IsGambling");
+        // isGambling = anim.GetBool("IsGambling");
         itemsList = new List<Sprite>();
         Sprite[] sprites = Resources.LoadAll<Sprite>("Items");
         itemsList.AddRange(sprites);
@@ -54,18 +64,24 @@ public class ItemBoxUI : MonoBehaviour
 
     void Update()
     {
-        isGambling = anim.GetBool("IsGambling");
-        if (isGambling && itemsList.Count != 0)
-            UpdateSprites();
-        if (isGambling && timer < totalTime && gamblingTimer < gamblingTime) {
-            timer += Time.deltaTime;
-            gamblingTimer += Time.deltaTime;
-            HandleSpeedChanges();
-            Debug.Log($"Timer: {gamblingTimer} seconds and time: {gamblingTime}.");
-        } else {
-            anim.SetBool("IsGambling", false);
+        if (player != null)
+        {
+            isGambling = anim.GetBool("IsGambling");
+            if (isGambling && itemsList.Count != 0)
+                UpdateSprites();
+            if (isGambling && timer < totalTime && gamblingTimer < gamblingTime)
+            {
+                timer += Time.deltaTime;
+                gamblingTimer += Time.deltaTime;
+                HandleSpeedChanges();
+            }
+            else
+            {
+                anim.SetBool("IsGambling", false);
+            }
         }
     }
+
 
     public void StartGambling(int id = 0)
     {
@@ -79,12 +95,16 @@ public class ItemBoxUI : MonoBehaviour
 
     public bool isGamblingActive()
     {
-        return isGambling;
+        if (anim)
+            return anim.GetBool("IsGambling");
+        return false;
     }
 
     public bool isItemActive()
     {
-        return anim.GetBool("ItemActive");
+        if (anim)
+            return anim.GetBool("ItemActive");
+        return false;
     }
 
     public void SetItemActive(bool value)
@@ -102,13 +122,13 @@ public class ItemBoxUI : MonoBehaviour
             {
                 itemIndex = 0;
             }
-            if (gamblingTime - gamblingTimer < 0.6f)
+            if (gamblingTime - gamblingTimer < 0.8f)
             {
                 itemIndex = lastId;
             }
 
             currentItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
-            currentItemID = itemIndex;
+            player.GetComponent<Player>().currentItemId = itemIndex;
 
         } else if (stateInfo.normalizedTime % 1 >= 0.5f && stateInfo.normalizedTime % 1 < 0.5f + Time.deltaTime)
         {
@@ -117,13 +137,13 @@ public class ItemBoxUI : MonoBehaviour
             {
                 itemIndex = 0;
             }
-            if (gamblingTime - gamblingTimer < 0.6f)
+            if (gamblingTime - gamblingTimer < 0.8f)
             {
                 itemIndex = lastId;
             }
 
             nextItem.sprite = itemsList[(itemIndex + 1) % itemsList.Count];
-            currentItemID = itemIndex;
+            player.GetComponent<Player>().currentItemId = itemIndex;
         }
     }
 

@@ -8,4 +8,6 @@ public class GroundObject : ScriptableObject
     public bool isRoad; // classic road
     public bool isOffroad; // offroad like dirt, grass, etc.
     public bool isWall; // classic wall
+
+    public bool speed; // speed boost
 }

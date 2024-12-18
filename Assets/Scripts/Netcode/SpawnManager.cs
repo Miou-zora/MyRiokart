@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using TMPro;
+using KartGame.KartSystems;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -35,8 +37,8 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Véhicule sélectionné : " + GameData.SelectedVehicleIndex);
-        Debug.Log("perso sélectionné : " + GameData.SelectedCharacterIndex);
+        Debug.Log("Vï¿½hicule sï¿½lectionnï¿½ : " + GameData.SelectedVehicleIndex);
+        Debug.Log("perso sï¿½lectionnï¿½ : " + GameData.SelectedCharacterIndex);
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
 
@@ -59,7 +61,7 @@ public class SpawnManager : MonoBehaviour
 
             if (selectedVehicle == null || selectedCharacter == null)
             {
-                Debug.LogError("Impossible de trouver le prefab du véhicule sélectionné. Assurez-vous que l'indice est correct.");
+                Debug.LogError("Impossible de trouver le prefab du vï¿½hicule sï¿½lectionnï¿½. Assurez-vous que l'indice est correct.");
                 return;
             }
 
@@ -72,7 +74,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private Transform GetNextSpawnPoint()
+    public Transform GetNextSpawnPoint()
     {
         if (nextSpawnIndex >= spawnPoints.Count)
         {
