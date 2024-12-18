@@ -1,21 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class GreenShell : MonoBehaviour
+public class GreenShell : NetworkBehaviour
 {
-    public float speed = 10f;
     public Rigidbody rb;
+    public float speed = 10f;
 
     public LayerMask groundLayer;
 
     private void Start()
     {
+        if (!IsServer)
+        {
+            enabled = false;
+            return;
+        }
+
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Désactiver la gravité du Rigidbody
     }
     private void FixedUpdate()
     {
+        if (!IsServer)
+            return;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.0f, groundLayer) && hit.normal.y > 0.5f)
         {
@@ -31,13 +40,22 @@ public class GreenShell : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (!IsServer)
+            return;
+
         if (collision.gameObject.tag == "Stunner")
         {
-            Destroy(gameObject);
+            DestroyShellServerRpc();
         }
         if (collision.gameObject.tag == "Player")
         {
-            Destroy(gameObject);
+            DestroyShellServerRpc();
         }
+    }
+
+    [ServerRpc]
+    private void DestroyShellServerRpc(ServerRpcParams rpcParams = default)
+    {
+        Destroy(gameObject); // The server destroys the banana, and all clients will reflect this
     }
 }

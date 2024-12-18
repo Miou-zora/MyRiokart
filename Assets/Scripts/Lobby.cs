@@ -50,13 +50,12 @@ public class Lobby : NetworkBehaviour
         Debug.Log("StopPlayers");
         foreach (GameObject player in players)
         {
-            player.GetComponent<ArcadeKart>().enabled = false;
+            player.GetComponent<ArcadeKart>().SetCanMove(false);
         }
     }
 
     private void SpawnCpu()
     {
-        
         // spawn cpu
         int nbCpu = 12 - players.Length;
         for (int i = 0; i < nbCpu; i++)
@@ -74,7 +73,7 @@ public class Lobby : NetworkBehaviour
         }
         foreach (GameObject player in players)
         {
-            player.GetComponent<ArcadeKart>().enabled = true;
+            player.GetComponent<ArcadeKart>().SetCanMove(true);
         }
         if (NetworkManager.Singleton.IsServer)
         {
