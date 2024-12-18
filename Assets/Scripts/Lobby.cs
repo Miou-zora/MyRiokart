@@ -44,7 +44,6 @@ public class Lobby : NetworkBehaviour
         isReady.Value = false;
         foreach (GameObject player in players)
         {
-            Debug.Log("bite " + player.name);
             player.GetComponent<ArcadeKart>().enabled = false;
         }
     }
@@ -67,7 +66,6 @@ public class Lobby : NetworkBehaviour
         isReady.Value = true;
         foreach (GameObject player in players)
         {
-            Debug.Log("suce " + player.name);
             player.GetComponent<ArcadeKart>().enabled = true;
         }
         if (NetworkManager.Singleton.IsServer)

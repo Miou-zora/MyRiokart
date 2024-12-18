@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 1904692016575190468}
   m_Layer: 2
   m_Name: MachBike
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1455,6 +1455,7 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 51
+  isAI: 0
 --- !u!114 &9077572462489393144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1512,6 +1513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCheckpoint: 0
   currentLap: 0
+  currentItemId: 0
 --- !u!114 &1033100557887137740
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,7 +28,6 @@ public class LapPath : MonoBehaviour
             int childIndex = childPath.transform.GetSiblingIndex();
 
             if (player != null && player.currentCheckpoint != childIndex && childIndex - player.currentCheckpoint == 1) {
-                Debug.Log("Current Checkpoint: " + player.currentCheckpoint);
                 player.currentCheckpoint = childIndex;
             }
         }

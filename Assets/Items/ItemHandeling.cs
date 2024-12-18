@@ -77,7 +77,6 @@ public class ItemHandeling : NetworkBehaviour
     {
         if (ui && NetworkManager.Singleton.LocalClientId == GetComponent<NetworkObject>().OwnerClientId) {
             if (item == null && ui.isItemActive()) {
-                Debug.Log("Set to false");
                 ui.SetItemActive(false);
             }
             if (item == null || ui.isGamblingActive())

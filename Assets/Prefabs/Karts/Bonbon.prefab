@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 3908895381884752683}
   m_Layer: 2
   m_Name: Bonbon (1)
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1438,6 +1438,7 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 8
+  isAI: 0
 --- !u!114 &6400019580772170477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1495,6 +1496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCheckpoint: 0
   currentLap: 0
+  currentItemId: 0
 --- !u!114 &7377271986603108996
 MonoBehaviour:
   m_ObjectHideFlags: 0
