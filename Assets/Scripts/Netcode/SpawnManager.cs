@@ -56,7 +56,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private Transform GetNextSpawnPoint()
+    public Transform GetNextSpawnPoint()
     {
         if (nextSpawnIndex >= spawnPoints.Count)
         {
