@@ -370,7 +370,7 @@ MonoBehaviour:
     TimeResyncInterval: 30
     EnsureNetworkVariableLengthSafety: 0
     EnableSceneManagement: 1
-    ForceSamePrefabs: 0
+    ForceSamePrefabs: 1
     RecycleNetworkIds: 1
     NetworkIdRecycleDelay: 120
     RpcHashSize: 0
@@ -3248,7 +3248,7 @@ MonoBehaviour:
   - {fileID: 1489751585708276268, guid: f68defadf055cc349b8fdcc34e12f0cc, type: 3}
   - {fileID: 4915779421076632646, guid: b7cc3be769a75db4fa780b136e99b0a1, type: 3}
   - {fileID: 4428590558025065919, guid: 096ded0c777838842b3d2a81bb5bf2b3, type: 3}
-  - {fileID: 4973513905792881801, guid: ddb444bdaacf23e4fb8f8c03279adba7, type: 3}
+  - {fileID: 4973513905792881801, guid: 8a934c37f3c64b9498465fb6594b7d04, type: 3}
   - {fileID: 7662461848578526930, guid: df7fdb7ba08f9a44b806225992255d38, type: 3}
   characterPrefabs:
   - {fileID: 7882508336107486630, guid: c87fd7cf75750aa409fc55a866a7f031, type: 3}
