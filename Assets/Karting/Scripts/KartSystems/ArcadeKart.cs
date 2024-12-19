@@ -308,12 +308,37 @@ namespace KartGame.KartSystems
             Input = new InputData();
             WantsToDrift = false;
 
-            // gather nonzero input from our sources
-            for (int i = 0; i < m_Inputs.Length; i++)
-            {
-                Input = m_Inputs[i].GenerateInput();
-                WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
-            }
+            if (IsOwner && IsClient) {
+                // gather nonzero input from our sources
+                for (int i = 0; i < m_Inputs.Length; i++)
+                {
+                    Input = m_Inputs[i].GenerateInput();
+                    WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
+                }
+                SetInputServerRpc(Input.Accelerate, Input.Brake, Input.TurnInput, Input.Item);
+            } 
+        }
+
+        [ServerRpc]
+        public void SetInputServerRpc(bool accelerate, bool brake, float turnInput, bool item)
+        {
+            var input = Input;
+            input.Accelerate = accelerate;
+            input.Brake = brake;
+            input.TurnInput = turnInput;
+            input.Item = item;
+            Input = input;
+        }
+
+        [ClientRpc]
+        public void SetInputClientRpc(bool accelerate, bool brake, float turnInput, bool item)
+        {
+            var input = Input;
+            input.Accelerate = accelerate;
+            input.Brake = brake;
+            input.TurnInput = turnInput;
+            input.Item = item;
+            Input = input;
         }
 
         void GroundAirbourne()

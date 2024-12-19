@@ -1501,11 +1501,12 @@ GameObject:
   - component: {fileID: 733103396464344299}
   - component: {fileID: 4914335962362726155}
   - component: {fileID: 5891087527702541011}
-  - component: {fileID: 4157229505206176533}
   - component: {fileID: 6649963720921118132}
   - component: {fileID: -1791350861493130284}
   - component: {fileID: -514941088988682134}
   - component: {fileID: 1563937337549665464}
+  - component: {fileID: 1660919688445721717}
+  - component: {fileID: 3858137207116914521}
   m_Layer: 2
   m_Name: KartBasePlayer
   m_TagString: Player
@@ -1573,7 +1574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1884452324
+  GlobalObjectIdHash: 2683339509
   InScenePlacedSourceGlobalObjectIdHash: 1884452324
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1688,24 +1689,6 @@ MonoBehaviour:
   currentCheckpoint: 0
   currentLap: 0
   currentItemId: 0
---- !u!114 &4157229505206176533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4973513905792881801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c38f91cf8989ae42bc084664628b114, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4973513905792881801}
-  networkPosition:
-    m_InternalValue: {x: 0, y: 0, z: 0}
-  networkRotation:
-    m_InternalValue: {x: 0, y: 0, z: 0, w: 0}
-  smoothSpeed: 5
 --- !u!114 &6649963720921118132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1772,6 +1755,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charId:
     m_InternalValue: -1
+--- !u!114 &1660919688445721717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &3858137207116914521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4973513905792881801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5055685215898343585
 GameObject:
   m_ObjectHideFlags: 0
