@@ -258,7 +258,7 @@ namespace KartGame.KartSystems
 
         void FixedUpdate()
         {
-            if ((!IsOwner && !isAI) || !m_CanMove)
+            if (!m_CanMove)
                 return;
             if (isAI && !IsServer)
                 return;
@@ -304,11 +304,9 @@ namespace KartGame.KartSystems
         {
             if (isAI)
                 return;
-            // reset input
-            Input = new InputData();
-            WantsToDrift = false;
-
             if (IsOwner && IsClient) {
+                Input = new InputData();
+                WantsToDrift = false;
                 // gather nonzero input from our sources
                 for (int i = 0; i < m_Inputs.Length; i++)
                 {
@@ -316,24 +314,13 @@ namespace KartGame.KartSystems
                     WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
                 }
                 SetInputServerRpc(Input.Accelerate, Input.Brake, Input.TurnInput, Input.Item);
-            } 
+            }
         }
 
         [ServerRpc]
         public void SetInputServerRpc(bool accelerate, bool brake, float turnInput, bool item)
         {
-            var input = Input;
-            input.Accelerate = accelerate;
-            input.Brake = brake;
-            input.TurnInput = turnInput;
-            input.Item = item;
-            Input = input;
-        }
-
-        [ClientRpc]
-        public void SetInputClientRpc(bool accelerate, bool brake, float turnInput, bool item)
-        {
-            var input = Input;
+            var input = new InputData();
             input.Accelerate = accelerate;
             input.Brake = brake;
             input.TurnInput = turnInput;

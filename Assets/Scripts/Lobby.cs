@@ -38,6 +38,7 @@ public class Lobby : NetworkBehaviour
     // On client connect
     public override void OnNetworkSpawn()
     {
+        return;
         Debug.Log("OnNetworkSpawn");
         networkReady.Value = true;
         GetPlayers();
@@ -46,6 +47,7 @@ public class Lobby : NetworkBehaviour
 
     void StopPlayers()
     {
+        return;
         if (isServer()) {
             isReady.Value = false;
         }
@@ -88,6 +90,7 @@ public class Lobby : NetworkBehaviour
 
     void Update()
     {
+        return;
         // if network is not ready, return
         if (!networkReady.Value)
         {
