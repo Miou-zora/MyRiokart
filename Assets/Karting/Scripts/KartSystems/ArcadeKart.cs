@@ -200,6 +200,9 @@ namespace KartGame.KartSystems
             if (!IsServer) {
                 Rigidbody.isKinematic = true;
             }
+            if (isAI)
+                return;
+            m_CanMove = false;
         }
         
         
@@ -302,7 +305,7 @@ namespace KartGame.KartSystems
             AirPercent = 1 - GroundPercent;
 
             // apply vehicle physics
-            if (m_CanMove && IsServer)
+            if (m_CanMove && IsServer && Input != null)
             {
                 MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
             }
@@ -368,6 +371,7 @@ namespace KartGame.KartSystems
                 }
                 return 0f;
             } else {
+                return 0f;
                 // use this value to play kart sound when it is waiting the race start countdown.
                 return Input.Accelerate ? 1.0f : 0.0f;
             }

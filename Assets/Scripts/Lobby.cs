@@ -13,12 +13,6 @@ public class Lobby : NetworkBehaviour
     public GameObject[] kartPrefabs;
     private SpawnManager spawnManager;
 
-    private bool islocalReady = true;
-    
-    private NetworkVariable<bool> networkReady = new NetworkVariable<bool>(false);
-
-    private Dictionary<ulong, int> playerKartIndices = new Dictionary<ulong, int>();
-
     public bool isServer() {return NetworkManager.Singleton.IsServer;}
 
     private int lastCount = 0;
@@ -32,41 +26,38 @@ public class Lobby : NetworkBehaviour
     {
         players = GameObject.FindGameObjectsWithTag("Player");
         lastCount = players.Length;
-        Debug.Log("GetPlayers: " + players.Length);
-    }
-
-    // On client connect
-    public override void OnNetworkSpawn()
-    {
-        return;
-        Debug.Log("OnNetworkSpawn");
-        networkReady.Value = true;
-        GetPlayers();
-        StopPlayers();
     }
 
     void StopPlayers()
     {
-        return;
-        if (isServer()) {
-            isReady.Value = false;
-        }
-        Debug.Log("StopPlayers");
+        GetPlayers();
         foreach (GameObject player in players)
         {
             player.GetComponent<ArcadeKart>().SetCanMove(false);
         }
+        if (NetworkManager.Singleton.IsServer)
+        {
+            StopPlayersClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    void StopPlayersClientRpc()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+        StopPlayers();
     }
 
     private void SpawnCpu()
     {
-        return;
         // spawn cpu
         int nbCpu = 12 - players.Length;
         for (int i = 0; i < nbCpu; i++)
         {
             int randomKartIndex = Random.Range(0, kartPrefabs.Length);
-            Debug.Log("randomindex = " + randomKartIndex);
             Transform spawnPoint = spawnManager.GetNextSpawnPoint();
             GameObject cpu = Instantiate(kartPrefabs[randomKartIndex], spawnPoint.position, spawnPoint.rotation);
             cpu.GetComponent<NetworkObject>().Spawn();
@@ -76,46 +67,40 @@ public class Lobby : NetworkBehaviour
 
     public void StartPlayers()
     {
-        if (isServer()) {
-            isReady.Value = true;
-        }
+        GetPlayers();
         foreach (GameObject player in players)
         {
             player.GetComponent<ArcadeKart>().SetCanMove(true);
         }
         if (NetworkManager.Singleton.IsServer)
         {
+            isReady.Value = true;
+            StartPlayersClientRpc();
             SpawnCpu();
         }
     }
 
+    [ClientRpc]
+    public void StartPlayersClientRpc()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+        StartPlayers();
+    }
+
+    [ServerRpc]
+    public void StartPlayersServerRpc()
+    {
+        StartPlayers();
+    }
+
     void Update()
     {
-        return;
-        // if network is not ready, return
-        if (!networkReady.Value)
+        if (Input.GetKeyDown(KeyCode.Space) && IsHost)
         {
-            return;
-        }
-        if (players == null || players.Length == 0)
-        {
-            GetPlayers();
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isReady.Value = true;
-        }
-        // Debug.Log("isReady: " + isReady.Value);
-        // Debug.Log("islocalReady: " + islocalReady);
-        if (isReady.Value != islocalReady && isReady.Value)
-        {
-            islocalReady = isReady.Value;
-        }
-        if (isReady.Value != islocalReady && !isReady.Value)
-        {
-            islocalReady = isReady.Value;
-            StopPlayers();
+            StartPlayersServerRpc();
         }
     }
 }

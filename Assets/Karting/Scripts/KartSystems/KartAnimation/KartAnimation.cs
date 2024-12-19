@@ -53,6 +53,8 @@ namespace KartGame.KartSystems
 
         void FixedUpdate() 
         {
+            if (kartController == null || kartController.Input == null)
+                return;
             m_SmoothedSteeringInput = Mathf.MoveTowards(m_SmoothedSteeringInput, kartController.Input.TurnInput, 
                 steeringAnimationDamping * Time.deltaTime);
 
