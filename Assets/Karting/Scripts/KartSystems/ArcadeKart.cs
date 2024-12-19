@@ -75,6 +75,8 @@ namespace KartGame.KartSystems
 
         public Rigidbody Rigidbody { get; private set; }
         public InputData Input     { get; set; }
+
+        public NetworkVariable<InputData> NetInput = new NetworkVariable<InputData>(new InputData(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public float AirPercent    { get; private set; }
         public float GroundPercent { get; private set; }
 
@@ -192,6 +194,13 @@ namespace KartGame.KartSystems
             UpdateSuspensionParams(RearLeftWheel);
             UpdateSuspensionParams(RearRightWheel);
         }
+
+        void Start()
+        {
+            if (!IsServer) {
+                Rigidbody.isKinematic = true;
+            }
+        }
         
         
         void TickPowerups()
@@ -262,6 +271,8 @@ namespace KartGame.KartSystems
                 return;
             if (isAI && !IsServer)
                 return;
+            if (!IsOwner && !IsServer)
+                return;
 
             UpdateSuspensionParams(FrontLeftWheel);
             UpdateSuspensionParams(FrontRightWheel);
@@ -291,10 +302,12 @@ namespace KartGame.KartSystems
             AirPercent = 1 - GroundPercent;
 
             // apply vehicle physics
-            if (m_CanMove)
+            if (m_CanMove && IsServer)
             {
                 MoveVehicle(Input.Accelerate, Input.Brake, Input.TurnInput);
             }
+            if (IsServer)
+                UpdatePositionClientRpc(transform.position, transform.rotation.eulerAngles, Rigidbody.velocity.magnitude);
             GroundAirbourne();
 
             m_PreviousGroundPercent = GroundPercent;
@@ -304,28 +317,27 @@ namespace KartGame.KartSystems
         {
             if (isAI)
                 return;
+            // reset input
             if (IsOwner && IsClient) {
                 Input = new InputData();
                 WantsToDrift = false;
                 // gather nonzero input from our sources
-                for (int i = 0; i < m_Inputs.Length; i++)
-                {
-                    Input = m_Inputs[i].GenerateInput();
-                    WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
-                }
-                SetInputServerRpc(Input.Accelerate, Input.Brake, Input.TurnInput, Input.Item);
+                Input = m_Inputs[0].GenerateInput();
+                if (NetInput.Value != Input)
+                    NetInput.Value = Input;
             }
+            Input = NetInput.Value;
+            WantsToDrift = Input.Brake && Vector3.Dot(Rigidbody.velocity, transform.forward) > 0.0f;
         }
 
-        [ServerRpc]
-        public void SetInputServerRpc(bool accelerate, bool brake, float turnInput, bool item)
+
+        // Mise à jour de la position sur tous les clients
+        [ClientRpc]
+        private void UpdatePositionClientRpc(Vector3 newPosition, Vector3 newRotation, float newSpeed)
         {
-            var input = new InputData();
-            input.Accelerate = accelerate;
-            input.Brake = brake;
-            input.TurnInput = turnInput;
-            input.Item = item;
-            Input = input;
+            Rigidbody.MovePosition(newPosition);
+            Rigidbody.MoveRotation(Quaternion.Euler(newRotation));
+            Rigidbody.velocity = Rigidbody.velocity.normalized * newSpeed;
         }
 
         void GroundAirbourne()

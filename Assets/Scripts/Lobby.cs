@@ -60,6 +60,7 @@ public class Lobby : NetworkBehaviour
 
     private void SpawnCpu()
     {
+        return;
         // spawn cpu
         int nbCpu = 12 - players.Length;
         for (int i = 0; i < nbCpu; i++)
