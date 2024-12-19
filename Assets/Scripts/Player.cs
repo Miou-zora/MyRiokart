@@ -32,7 +32,6 @@ public class Player : NetworkBehaviour
         lapCounterUiPrefab = Resources.Load<LapCounterUI>("UI/LapCount");
         if (lapCounterUiPrefab != null)
         {
-            Debug.Log("Called to init");
             // Instantiate LapCounterUI
             LapCounterUI localLapCounter = Instantiate(lapCounterUiPrefab, raceUi.transform); // Parent directly to Canvas
             localLapCounter.SetPlayer(player); // Set player reference
