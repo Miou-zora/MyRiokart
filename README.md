@@ -1,2 +1,2 @@
 # my_riokart
-mashallah le projet
+A copy of famous game Mario Kart, in 3D with Unity
